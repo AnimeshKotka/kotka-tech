@@ -4,32 +4,29 @@ import styles from './styles.module.css';
 
 const FeatureList = [
   {
-    title: 'Easy to Use',
+    title: 'Technical Tutorials',
     Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        Learn complex technologies with ease through step-by-step tutorials designed to simplify concepts and enhance your skills.
       </>
     ),
   },
   {
-    title: 'Focus on What Matters',
+    title: 'Staying Updated with Technologies',
     Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        Stay informed with in-depth blogs covering the latest trends, tools, and innovations in the tech world.
       </>
     ),
   },
   {
-    title: 'Powered by React',
+    title: 'Building Web Solutions for Businesses',
     Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        Transform your ideas into reality with custom web solutions tailored to elevate your business.
       </>
     ),
   },

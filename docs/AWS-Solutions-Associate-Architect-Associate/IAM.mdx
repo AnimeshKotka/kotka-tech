@@ -45,5 +45,94 @@ IAM Query API can be used to make direct calls to the IAM web service (using acc
 - Policy Structure
 
 
-![Docusaurus logo](/img/iam.jpg)
-<!-- ![Caption for the picture.](/static/img/docusaurus-social-card.jpg) -->
+![IAM service](/img/iam.jpg)
+
+### Trust Policies¶
+- Defines which principal entities (accounts, users, roles, federated users) can assume the role
+- An IAM role is both an identity and a resource that supports resource-based policies.
+- You must attach both a trust policy and an identity-based policy to an IAM role.
+- The IAM service supports only one type of resource-based policy called a role trust policy, which is attached to an IAM role.
+
+## Roles
+- Collection of policies for AWS services
+:::note
+If you are going to use an IAM Service Role with Amazon EC2 or another AWS service that uses Amazon EC2, you must store the role in an instance profile. When you create an IAM service role for EC2, the role automatically has EC2 identified as a trusted entity.
+:::
+
+## Protect IAM Accounts
+- Password Policy
+  - Used to enforce standards for password
+    - password rotation
+    - password reuse
+  - Prevents brute force attack
+- Multi Factor Authentication (MFA)
+  - Both root user and IAM users should use MFA
+
+## Guidelines¶
+- Use root account only for account setup
+- 1 physical user = 1 IAM user
+- Enforce MFA for both root and IAM users
+- Never share lAM credentials & Access Keys
+
+## Policy Simulator¶
+- Online tool that allows us to check what API calls an IAM User, Group or Role is allowed to perform based on the permissions they have.
+
+## Permission Boundaries¶
+- Set the maximum permissions an IAM entity can get
+- **Can be applied to users and roles (not groups)**
+- Used to ensure some users can’t escalate their privileges (make themselves admin)
+## Assume Role vs Resource-based Policy¶
+- When you assume an IAM Role, you give up your original permissions and take the permissions assigned to the role
+- When using a resource based policy, the principal doesn’t have to give up their permissions
+
+---
+## Examples
+
+Create `policy.yaml` file and paste the below code:
+```
+Version: "2012-10-17"
+Statement:
+  - Sid: "AccesstoS3"
+    Effect: "Allow"
+    Action: "S3:ListBucket"
+    Resource: "*"
+```
+
+### Convert into JSON
+```sh
+yq -o json policy.yaml > policy.json
+```
+
+### Create AWS s3 policy
+
+```sh
+aws iam create-policy --policy-name aws-s3-all --policy-document "$(yq -o json policy.yaml)"
+```
+
+### Attach user policy 
+[official document](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/iam/attach-user-policy.html#examples)
+
+```sh
+aws iam attach-user-policy \
+--policy-arn arn:aws:iam::376129885533:policy/aws-s3-all \
+--user-name sts-machine-user
+```
+
+---
+- Copy the access key and secret here
+
+```sh
+aws configure
+```
+
+Then edit credentials file to change away from default profile
+
+```sh
+open ~/.aws/credentials 
+```
+
+Test who you are:
+
+```sh
+aws sts get-caller-identity
+aws sts get-caller-identity --profile sts
