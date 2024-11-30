@@ -25,12 +25,12 @@
 animesh:
   name: Animesh Kotka
   title: Full Stack Blockchian Developer
-  url: https://sebastienlorber.com
+  url: https://kotka.tech
   image_url: https://avatars.githubusercontent.com/u/40909527
   page:
     # customize the url of the author page at /blog/authors/<permalink>
     permalink: '/all-sebastien-lorber-articles'
   socials:
     x: animesh_kotka
-    linkedin: sebastienlorber
+    linkedin: animesh-kotka/
     github: AnimeshKotka
