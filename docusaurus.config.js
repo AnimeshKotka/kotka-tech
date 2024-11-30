@@ -43,12 +43,15 @@ const config = {
       ({
         docs: {
           sidebarPath: './sidebars.js',
+          exclude: ['**/demo', '**/tutorial-basics', '**/tutorial-extras'],
+          breadcrumbs: true,
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
             'https://github.com/AnimeshKotka/kotka-tech/tree/main',
         },
         blog: {
+          exclude: ['**/demo'],
           showReadingTime: true,
           feedOptions: {
             type: ['rss', 'atom'],

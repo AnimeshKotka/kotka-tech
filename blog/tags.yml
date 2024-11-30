@@ -17,3 +17,8 @@ hola:
   label: Hola
   permalink: /hola
   description: Hola tag description
+
+github:
+  label: Github
+  permalink: /github
+  description: Github description

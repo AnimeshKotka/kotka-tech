@@ -7,12 +7,18 @@ tags: [github, ssh, multiple accounts]
 image: https://i.imgur.com/mErPwqL.png
 hide_table_of_contents: false
 ---
+import Tag from '@site/src/components/Tag';
+
 
 Working with multiple GitHub accounts, such as one for work and another for personal projects, can sometimes be tricky. If you've ever tried to clone a repository and accidentally used the wrong account, you know how frustrating it can be. Fortunately, SSH configuration makes managing multiple GitHub accounts seamless.
 
 In this guide, we’ll walk you through setting up and using SSH keys to manage multiple GitHub accounts effectively. By the end, you'll be able to clone, push, and pull from repositories using the correct account without hassle.
 
-<!-- truncate -->
+:::tip
+SSH (Secure Shell) is used in this context to securely authenticate and connect to GitHub repositories using unique SSH keys for different accounts, ensuring seamless management of multiple GitHub profiles.
+:::
+
+{/* truncate */}
 
 ## 1. Generate Separate SSH Keys for Each Account
 
@@ -117,7 +123,7 @@ By specifying `github-primary` or `github-secondary`, Git automatically uses the
 
 ## 6. Update Remote URLs for Existing Repositories
 
-If you've already cloned a repository but want to switch to a specific account, update the remote URL:
+<Tag color="#FF5733">Important</Tag> If you've already cloned a repository but want to switch to a specific account, update the remote URL:
 
 1. Navigate to the repository:
 
@@ -167,4 +173,4 @@ Hi <username>! You've successfully authenticated, but GitHub does not provide sh
 
 Managing multiple GitHub accounts doesn't have to be complicated. By configuring SSH keys and using a well-structured `~/.ssh/config` file, you can easily switch between accounts and ensure you're always using the right credentials for the task at hand.
 
-Have questions or run into issues? Let us know in the comments below, and we’ll be happy to help!
+Have questions or run into issues? Feel free to connect, and I’ll be happy to help!
