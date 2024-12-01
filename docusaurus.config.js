@@ -12,7 +12,7 @@ import {themes as prismThemes} from 'prism-react-renderer';
 const config = {
   title: 'Animesh Kotka',
   tagline: 'Your technical guy to Tech Care your problems',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/test1.ico',
 
   // Set the production url of your site here
   url: 'https://AnimeshKotka.github.io',
@@ -77,7 +77,7 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       // Replace with your project's social card
-      image: 'img/docusaurus-social-card.jpg',
+      image: 'img/AnimeshKotkaSocial.png',
       navbar: {
         title: '',
         logo: {
