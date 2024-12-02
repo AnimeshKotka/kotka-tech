@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmy_website=self.webpackChunkmy_website||[]).push([[220],{8826:(e,t,s)=>{s.r(t),s.d(t,{default:()=>r});s(6540);var i=s(781),n=s(5260),c=s(4848);s(3914);function r(){return(0,c.jsx)(i.A,{children:(0,c.jsxs)(n.A,{children:[(0,c.jsx)("title",{children:"About"}),(0,c.jsx)("meta",{name:"description",content:"This is the about page"})]})})}}}]);

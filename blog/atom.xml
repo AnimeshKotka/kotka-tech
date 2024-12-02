@@ -6,7 +6,7 @@
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://AnimeshKotka.github.io/kotka-tech/blog"/>
     <subtitle>Animesh Kotka Blog</subtitle>
-    <icon>https://AnimeshKotka.github.io/kotka-tech/img/favicon.ico</icon>
+    <icon>https://AnimeshKotka.github.io/kotka-tech/img/test1.ico</icon>
     <entry>
         <title type="html"><![CDATA[Managing Multiple GitHub Accounts]]></title>
         <id>https://AnimeshKotka.github.io/kotka-tech/blog/managing-multiple-github-accounts</id>
@@ -111,7 +111,7 @@
 <p>Have questions or run into issues? Feel free to connect, and I’ll be happy to help!</p>]]></content>
         <author>
             <name>Animesh Kotka</name>
-            <uri>https://sebastienlorber.com</uri>
+            <uri>https://kotka.tech</uri>
         </author>
         <category label="Github" term="Github"/>
         <category label="ssh" term="ssh"/>
