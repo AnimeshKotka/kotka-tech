@@ -1,6 +1,6 @@
 ---
-title: Elastic Compute Cloud (EC2)
-sidebar_position: 3
+title: EC2 Fundamentals
+sidebar_position: 1
 toc_min_heading_level: 2
 toc_max_heading_level: 6
 ---
@@ -84,3 +84,90 @@ Using SSH we can connect out ec2 instance.
 2. Check security group has rule for SSH. It not then add a new rule for SSH source should 0.0.0.0/0.
 3. locate .pem file give to permission using `sudo chmod 400 <your_file_name>.pem`
 4. Run this to connect EC2:  `ssh -i "<your_file_name>.pem" <user>@<public_ip>`
+
+## IAM Roles for EC2 instances
+
+:::caution
+Never enter AWS credentials into the EC2 instance, instead attach [IAM](/docs/AWS-Solutions-Associate-Architect-Associate/IAM) Roles to the instances
+:::
+
+:::tip
+Create a AWS role (SSMRole) which use existing policy AmazonSSMManagedInstanceCore
+:::
+
+## Purchasing Options
+### On-demand Instances
+- Pay per use (no upfront payment)
+- Highest cost
+- No long-term commitment
+- Recommended for short-term, uninterrupted and unpredictable workloads
+
+### Standard Reserved Instances
+- Reservation Period: 1 year or 3 years
+- Recommended for steady-state applications (like database)
+- Sell unused instances on the Reserved Instance Marketplace
+
+### Convertible Reserved Instances
+- Can change the instance type
+- Lower discount
+- **Cannot sell unused instances on the Reserved Instance Marketplace**
+
+### Scheduled Reserved Instances
+- reserved for a time window (ex. everyday from 9AM to 5PM)
+
+### Spot Instances
+- Work on a bidding basis where you are willing to pay a specific max hourly rate for the instance. Your instance can terminate if the spot price increases.
+- Spot blocks are designed not to be interrupted
+- Good for workloads that are resilient to failure
+- Distributed jobs (resilient if some nodes go down)
+- Batch jobs
+### Dedicated Hosts
+- Server hardware is allocated to a specific company (not shared with other companies)
+- 3 year reservation period
+- Billed per host
+- Useful for software that have BYOL (Bring Your Own License) or for companies that have strong regulatory or compliance needs
+### Dedicated Instances
+- Dedicated hardware
+- Billed per instance
+- No control over instance placement
+
+### On-Demand Capacity Reservations
+- Ensure you have the available capacity in an AZ to launch EC2 instances when needed
+- Can reserve for a recurring schedule (ex. everyday from 9AM to 5PM)
+- No need for 1 or 3-year commitment (independent of billing discounts)
+- Need to specify the following to create capacity reservation: - AZ - Number of instances - Instance attributes
+
+## Examples
+
+### Connect to EC2 using ssh key
+
+- generate ssh key
+```sh
+ssh-keygen -t rsa -f ec2_connect
+```
+this will create a ec2_connect file
+
+- Check aws instance 
+```sh
+aws ec2 describe-instances --region ap-south-1
+```
+
+- Send ssh key to instance
+```sh
+aws ec2-instance-connect send-ssh-public-key \
+    --instance-id i-012637e47ba8c98d7 \
+    --instance-os-user ec2-user \
+    --availability-zone ap-south-1a \
+    --ssh-public-key file://ec2_connect.pub \
+    --region ap-south-1
+```
+
+- Give permission to ec2connect file
+```sh
+chmod 400 ec2_connect
+```
+
+- Connect with ssh
+```sh
+ssh -i ec2_connect ec2-user@<ip>
+```

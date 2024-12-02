@@ -143,7 +143,7 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} Kotka Tech, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} Kotka Tech, Inc.`,
       },
       prism: {
         theme: prismThemes.github,
