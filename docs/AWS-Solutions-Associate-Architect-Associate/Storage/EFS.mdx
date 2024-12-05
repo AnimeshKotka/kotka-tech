@@ -1,0 +1,24 @@
+---
+title: Elastic File Storage- EFS
+sidebar_position: 2
+toc_min_heading_level: 2
+toc_max_heading_level: 6
+---
+import TOCInline from '@theme/TOCInline';
+import Tag from '@site/src/components/Tag';
+
+<TOCInline toc={toc} minHeadingLevel={2} maxHeadingLevel={6} />
+
+- AWS managed Network File System (NFS)
+- Can be mounted to multiple EC2 instances **across AZs**
+- **Pay per use** (no capacity provisioning)
+- **Auto scaling** (up to PBs)
+- Compatible with **Linux** based AMIs (**POSIX** file system)
+- **Uses security group to control access to EFS**
+- Lifecycle management feature to move files to **EFS-IA** after N days
+
+## Performance Mode
+- **General Purpose** (default)
+  - latency-sensitive use cases (web server, CMS, etc.)
+- **Max I/O**
+  - higher latency & throughput (big data, media processing)

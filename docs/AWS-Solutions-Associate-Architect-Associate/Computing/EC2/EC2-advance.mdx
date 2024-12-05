@@ -76,3 +76,64 @@ migrate them to hardware that has capacity for all the requested instances.
 - Standby
   - Instance remains attached to the ASG but is temporarily put out of service (the ASG doesn't replace this instance)
   - Used to install updates or troubleshoot a running instance
+
+## Storage
+ - [Instance Store](/docs/AWS-Solutions-Associate-Architect-Associate/Storage/instance_store)
+ - [Elastic Block Storage- EBS](/docs/AWS-Solutions-Associate-Architect-Associate/Storage/EBS)
+ - [Elastic File Storage- EFS](/docs/AWS-Solutions-Associate-Architect-Associate/Storage/EFS)
+
+## Monitoring
+ - coming soon
+
+## Amazon Machine Image (AMI)
+ - AMIs are the image of the instance after installing all the necessary OS, software and configuring everything.
+ - It boots much faster because the whole thing is pre-packaged and doesn’t have to be installed separately for each instance.
+ - Good for static configurations
+ - **Bound to a region** (can be copied across regions)
+
+:::note
+When the new AMI is copied from region A into region B, it automatically creates a snapshot in region B because AMIs are based on the underlying snapshots.
+:::
+
+
+## Examples
+### Update system package repository
+```sh
+sudo yum update -y
+```
+
+### Install Apache (httpd)
+```sh
+sudo yum install -y httpd
+```
+
+### Start Apache service
+```sh
+sudo systemctl start httpd
+```
+
+### Enable Apache to start at boot
+```sh
+sudo systemctl enable httpd
+```
+
+### Create a custom HTML file
+```sh
+cat <<EOF > /var/www/html/index.html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome to My Website</title>
+</head>
+<body>
+    <h1>Hello, World!</h1>
+    <p>This is a custom HTML page served from my Apache server on EC2.</p>
+</body>
+</html>
+EOF
+```
+
+### Restart Apache to apply changes
+```sh
+sudo systemctl restart httpd
+```
