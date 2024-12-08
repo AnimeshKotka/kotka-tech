@@ -1,0 +1,54 @@
+---
+title: Concepts
+sidebar_position: 2
+toc_min_heading_level: 2
+toc_max_heading_level: 6
+---
+
+import TOCInline from '@theme/TOCInline';
+
+<TOCInline toc={toc} minHeadingLevel={2} maxHeadingLevel={6} />
+
+## Scalability
+- Ability to handle greater loads by adapting
+- Vertical Scalability (scaling up / down)
+  - increasing the size (performance) of the instance
+  - used in non-distributed systems, such as a database.
+  - limited by hardware
+- Horizontal Scalability (elasticity) (scaling out / in)
+  - increasing the number of instances of the application
+  - used in distributed systems
+  - easier to achieve than vertical scalability
+
+## High Availability
+- Ability to survive a hardware or AZ failure
+- Achieved by running at least 2 instances of the application in different AZs
+- Cost effective way of implementing HA
+  - Stateless
+    - Create a system where only 1 EC2 instance stays active at a time. If the instance goes down,
+    ASG will start a new one. Also, the EC2 instance will issue an API call to attach the Elastic IP based on tag.
+![DNS Structure](/img/high-avi.jpg)
+
+## DNS
+-  Domain Name system which translate the human friendly hostnames into machine IP addresses
+
+## DNS Terminology
+- Domain Register: registers domain names (Amazon Route53, GoDaddy etc)
+- DNS records: A, AAAA, CNAME, NS etc
+- Zone File: contains DNS records (used to match hostnames to IP addresses)
+- Name server: resolves DNS queries (Authoritative or Non-Authoritative)
+- Top Level Domain (TLD): .com, .us, .in etc
+- Sceond Level Domain (SLD): emaxple.com, google.com etc
+## Domain Name Structure
+![DNS Structure](/img/dns.jpg)
+
+## How DNS works
+Your web browser wants to access the domain example.com which is being served by a server at IP 9.10.11.12.
+Your browser will first query the local DNS server which if it has that domain cached, it will return it right away.
+Otherwise, it will ask the same question to the Root DNS server.
+The root DNS server will extract the TLD (.com) from the domain and direct the local DNS to the TLD DNS Server that can serve .com TLD.
+The query to the TLD DNS server will be the same. The TLD DNS server returns the IP of the SLD DNS server
+which can store the IP of web server hosting example.com. Once again the same query is made to the SLD DNS Server which returns the IP 9.10.11.12 instead of NS (named server).
+
+![DNS Structure](/img/dns-flow.jpg)
+

@@ -1,0 +1,57 @@
+---
+title: Route 53
+sidebar_position: 1
+toc_min_heading_level: 2
+toc_max_heading_level: 6
+---
+import TOCInline from '@theme/TOCInline';
+import Tag from '@site/src/components/Tag';
+
+<TOCInline toc={toc} minHeadingLevel={2} maxHeadingLevel={6} />
+
+## Route 53
+- Global Service
+- AWS managed Authoritative DNS (customer can update the DNS records and have full control over the [DNS](/docs/AWS-Solutions-Associate-Architect-Associate/Concepts#dns))
+- Also a Domain Registrar (for registering domain names)
+- Only AWS service which provides 100% availability SLA
+- Affected by client's DNS caching (not suitable for Blue-Green Deployment if the client caches DNS queries)
+
+:::note
+It is recommended to use DNS names or URLs instead of IPs wherever possible
+:::
+
+## Hosted Zone
+- A container for DNS records that define how to route traffic to a domain and its subdomains.
+- Hosted zone is queried to get the IP address from the hostname
+- Two types:
+  - Public Hosted Zone
+    - resolves public domain names
+    - can be queried by anyone on the internet
+  - Private Hosted Zone
+    - resolves private domain names
+    - can only be queried from within the VPC
+
+## Record Types
+- **A** - maps a hostname to IPv4
+- **AAAA** - maps a hostname to IPv6
+- **CNAME** - maps a hostname to another hostname
+  - The target is a domain name which must have an A or AAAA record
+  - **Cannot point to root domains** (Zone Apex) Ex: you can’t create
+  a CNAME record for example.com, but you can create for something.example.com
+- **NS**(Name Server)  - controls how traffic is routed for a domain
+- **Alias** - maps a hostname to an AWS resource
+  -  **AWS proprietary**
+  - Can point to root (zone apex) and non-root domains
+  - **Alias Record is of type A or AAAA** (IPv4 / IPv6)
+  - Targets can be
+    - Elastic Load Balancers
+    - CloudFront Distributions
+    - API Gateway
+    - Elastic Beanstalk environments
+    - S3 Websites
+    - VPC Interface Endpoints
+    - Global Accelerator accelerator
+    - Route 53 record in the same hosted zone
+
+  - **Target cannot be EC2**
+
