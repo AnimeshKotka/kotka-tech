@@ -1,3 +1,4 @@
+/**
 import React from "react";
 import '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -89,3 +90,5 @@ function Expertise() {
 }
 
 export default Expertise;
+
+*/

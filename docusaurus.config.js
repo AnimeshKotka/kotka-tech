@@ -15,11 +15,12 @@ const config = {
   favicon: 'img/test1.ico',
 
   // Set the production url of your site here
-  url: 'https://AnimeshKotka.github.io',
+  // url: 'https://AnimeshKotka.github.io',
+  url: 'http://test-demo-s3-11.s3-website.ap-south-1.amazonaws.com',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/kotka-tech',
-
+  // baseUrl: '/kotka-tech',
+  baseUrl: '/',
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'AnimeshKotka', // Usually your GitHub org/user name.
@@ -78,6 +79,19 @@ const config = {
     ({
       // Replace with your project's social card
       image: 'img/AnimeshKotkaSocial.png',
+      metadata: [
+        {name: 'keywords', content: 'aws, tutorial, blogging, blockchain, kotka-tech, animesh kotka, tech'},
+        {name: 'aws', content: 'AWS solution Architech'}
+      ],
+      headTags: [
+        {
+          tagName: 'link',
+          attributes: {
+            rel: 'preconnect',
+            href: 'https://kotka-tech',
+        }
+      }
+      ],
       navbar: {
         title: '',
         logo: {
