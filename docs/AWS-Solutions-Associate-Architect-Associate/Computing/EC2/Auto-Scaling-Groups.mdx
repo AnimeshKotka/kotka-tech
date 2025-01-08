@@ -1,0 +1,42 @@
+---
+title: Auto Scaling Group
+sidebar_position: 4
+toc_min_heading_level: 2
+toc_max_heading_level: 6
+keywords: [ Auto Scaling Group, ASG, aws, notes, solution architech ]
+---
+import TOCInline from '@theme/TOCInline';
+import Tag from '@site/src/components/Tag';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<TOCInline toc={toc} minHeadingLevel={2} maxHeadingLevel={6} />
+- Regional Service
+- Supports Multi AZ
+- Automatically add or remove instances (scale horizontally) based on the load
+- Free (pay for the underlying resources)
+- IAM roles attached to an ASG will get assigned to the launched EC2 instances
+- ASG can terminate instances marked as unhealthy by an ELB (and hence replace them)
+
+:::note
+Even if an ASG is deployed across 3 AZs, minimum number of instances to remain highly available is still 2
+
+If you have an ASG with running instances and you delete the ASG, the instances will be terminated and the ASG will be deleted.
+:::
+
+### Scaling Policies
+- **Scheduled Scaling**
+  - Scale based on a schedule
+  - Used when the load pattern is predictable
+- **Simple Scaling**
+  - Scale to certain size on a CloudWatch alarm
+  - Ex. when CPU > 90%, then scale to 10 instances
+- **Step Scaling**
+  - Scale incrementally in steps using CloudWatch alarms
+  - Ex. when CPU > 70%, then add 2 units and when CPU < 30%, then remove 1 unit
+  - Specify the instance warmup time to scale faster
+- **Target Tracking Scaling**
+  - ASG maintains a CloudWatch metric and scale accordingly (automatically creates CW alarms)
+  - Ex. maintain CPU usage at 40%
+- **Predictive Scaling**
+  - Historical data is used to predict the load pattern using ML and scale automatically

@@ -56,6 +56,10 @@ Using ALB & NLB, instances in peered VPCs can be used as targets using IP addres
   - Query String (example.com/users?id=123&order=false)
   - Request Headers
   - Source IP address
+:::note
+The following cookie names are reserved by the ELB(Application LB) (AWSALB, AWSALBAPP, AWSALBTG).
+:::
+
 
 ### Network Load Balancer (NLB)
 - Operates at Layer 4 (TCP, UDP)
@@ -90,6 +94,13 @@ allow TCP traffic on port 80 from anywhere**.
 
   ![Partition](/img/gate-way-lb.png)
 
+
+
+:::tip
+Only Network Load Balancer provides both static DNS name and static IP. While, Application Load Balancer provides a static DNS name but it does NOT provide a static IP.
+The reason being that AWS wants your Elastic Load Balancer to be accessible using a static endpoint, even if the underlying infrastructure that AWS manages changes.
+:::
+
 ### Sticky Sessions (Session Affinity)
 - Requests coming from a client is always redirected to the same instance based on a cookie. After the cookie expires,
 the requests coming from the same user might be redirected to another instance.
@@ -106,3 +117,51 @@ the requests coming from the same user might be redirected to another instance.
 
 ### Cross-zone Load Balancing
 Allows ELBs in different AZ containing unbalanced number of instances to distribute the traffic evenly across all instances in all the AZ registered under a load balancer.
+
+  ![Partition](/img/cross-elb.jpg)
+
+**Supported Load Balancers**
+- Classic Load Balancer
+  - Disabled by default
+  - No charges for inter AZ data
+- Application Load Balancer
+  - Always on (can’t be disabled)
+  - No charges for inter AZ data
+- Network Load Balancer
+  - Disabled by default
+  - Charges for inter AZ data
+
+### In-Flight Encryption
+- Use an NLB with a TCP listener & terminate SSL on EC2 instances
+- Use an ALB with an HTTPS listener, install SSL certificates on the ALB & terminate SSL on the ALB
+- Communication between ALB & EC2 instances can happen over HTTP inside the VPC
+- **Server Name Indication (SNI)**
+  - SNI allows us to load multiple SSL certificates on one Load Balancer to serve multiple websites securely
+
+![Partition](/img/inflight-encyption.jpg)
+
+- **Only works for ALB & NLB** (CLB only supports one SSL certificate)
+- Newer protocol, not every client supports it yet
+- Supported in CloudFront also
+
+### Connection Draining (De-registration Delay)
+- When an instance is to be de-registered from the ELB, the in-flight requests being served by that instance are given some pre-defined time to complete before the ELB de-registers it.
+- ELB stops sending new requests to the EC2 instance which is de-registering
+- Set manually (0 to 3600 seconds) (**default: 300 seconds**)
+
+:::note
+For instances behind an ELB and using ASG, increase the de-registration delay to ensure that the in-flight requests are completed before the ELB deregisters an instance which is to be terminated by the ASG.
+:::
+
+### Access Logs
+- Captures detailed information about requests sent to the load balancer
+- Used to analyze traffic patterns and troubleshoot issues
+- Disabled by default
+
+### Misc
+
+- Security Groups for a public facing ELB
+  - ELB will be publicly available on the internet, so it’s security group should allow HTTP and HTTPS traffic from anywhere.
+  EC2 should only allow traffic from the ELB, so the its security group should allow HTTP requests from ELB’s security group.
+
+  ![Partition](/img/misc.jpg)
