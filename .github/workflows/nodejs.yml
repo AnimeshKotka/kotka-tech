@@ -16,7 +16,8 @@ jobs:
       with:
         node-version: 20
         cache: 'npm'
-    - run: echo ${{ secrets }}
+    - run: echo ${{ secrets.AWS_S3_BUCKET_NAME }}
+    - run: echo ${{ secrets.AWS_ACCESS_KEY_ID }}
     - run: npm ci
     - run: npm run build
   
@@ -32,4 +33,4 @@ jobs:
         folder: build
         bucket: ${{ secrets.AWS_S3_BUCKET_NAME }}
         region: ${{ secrets.AWS_S3_BUCKET_REGION }}
-        files-to-include: '{*/dist/*}'
+        files-to-include: '**/dist/**'
