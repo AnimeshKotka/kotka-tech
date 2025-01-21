@@ -20,7 +20,6 @@ jobs:
     - run: echo ${{ secrets.AWS_ACCESS_KEY_ID }}
     - run: npm ci
     - run: npm run build
-    - run: ls -R ./build
   
   deploy:
     needs: build
@@ -30,9 +29,10 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     steps:
     - uses: actions/checkout@v3
+    - run: ls -R ./build
     - uses: reggionick/s3-deploy@v4
       with:
-        folder: build
+        folder: ./build
         bucket: ${{ secrets.AWS_S3_BUCKET_NAME }}
         bucket-region: ${{ secrets.S3_BUCKET_REGION }}
         files-to-include: '{.*/**,**}'
