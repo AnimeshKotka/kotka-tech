@@ -34,6 +34,7 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: build
+        path: ./build
     - run: ls -R ./build # Verify the contents of the build folder
     - uses: reggionick/s3-deploy@v4
       with:
