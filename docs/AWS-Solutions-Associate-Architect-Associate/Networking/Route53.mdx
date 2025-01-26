@@ -7,7 +7,7 @@ toc_max_heading_level: 6
 import TOCInline from '@theme/TOCInline';
 import Tag from '@site/src/components/Tag';
 
-<TOCInline toc={toc} minHeadingLevel={2} maxHeadingLevel={6} />
+<TOCInline toc={toc} minHeadingLevel={2} maxHeadingLevel={2} />
 
 ## Route 53
 - Global Service
@@ -54,4 +54,70 @@ It is recommended to use DNS names or URLs instead of IPs wherever possible
     - Route 53 record in the same hosted zone
 
   - **Target cannot be EC2**
+
+## Routing Policies
+
+### Simple
+- Route to one or more resources
+- If multiple values are returned, client chooses one at random (client-side load balancing)
+- No health check (if returning multiple resources, some of them might be unhealthy)
+![Policies](./images/policy.jpg)
+
+### Weighted
+
+- Route a fraction of request to multiple resources
+- Health checks
+- Use case: testing a new application version by sending a small amount of traffic
+- Can be used for **Active-Active failover** strategy
+
+### Latency-based
+
+- Redirect to the resource that has the lowest latency
+- Health checks
+- Can be used for **Active-Active failover** strategy
+
+### Failover
+- Primary & Secondary Records (if the primary application is down, route to secondary application)
+- Health check must be associated with the primary record
+- Used for **Active-Passive failover** strategy
+
+### Geolocation
+- Routing based on the client's location
+- Should create a “Default” record (in case there’s no match on location)
+- Use cases: restrict content distribution & language preference
+
+### Geoproximity
+- Route traffic to your resources based on the proximity of clients to the resources
+- Ability to shift more traffic to resources based on the defined bias.
+  - To expand (bias: 1 to 99) → more traffic to the resource
+  - To shrink (bias: -1 to-99) → less traffic to the resource
+- Resources can be:
+  - AWS resources (specify AWS region)
+  - Non-AWS resources (specify Latitude and Longitude)
+- Uses **Route 53 Traffic Flow**
+
+### Multi-value
+- Route traffic to multiple resources (max 8)
+- Health Checks (only healthy resources will be returned)
+
+## Health Checks
+- HTTP Health Checks are only for public resources
+- Allows for Automated DNS Failover
+- Three types:
+  - Monitor an endpoint (application or other AWS resource)
+    - Multiple global health checkers check the endpoint health
+    - Must configure the application firewall to allow incoming requests from the IPs of Route 53 Health Checkers
+    - Supported protocols: HTTP, HTTPS and TCP
+  - Monitor other health checks (**Calculated Health Checks**)
+    - Combine the results of multiple Health Checks into one (AND, OR, NOT)
+    - Specify how many of the health checks need to pass to make the parent pass
+    - Usage: perform maintenance to your website without causing all health checks to fail
+  - Monitor CloudWatch Alarms (to perform health check on private resources)
+    - Route 53 health checkers are outside the VPC. They can’t access private endpoints (private VPC or on-premises resources).
+    - Create a CloudWatch Metric and associate a CloudWatch Alarm to it, then create a Health Check that checks the CW alarm.
+
+## DNS Resolution in Hybrid Cloud
+- To resolve DNS queries for resources in the VPC from the on-premises network, create an inbound endpoint on Route 53 Resolver and then DNS resolvers on the on-premises network can forward DNS queries to Route 53 Resolver via this endpoint.
+- To resolve DNS queries for resources in the on-premises network from the VPC, create an outbound endpoint on Route 53 Resolver and then Route 53 Resolver can conditionally forward queries to resolvers on the on-premises network via this endpoint.
+To conditionally forward queries, create Resolver rules that specify the domain names for the DNS queries that you want to forward (such as example.com) and the IP addresses of the DNS resolvers on the on-premises network that you want to forward the queries to.
 
