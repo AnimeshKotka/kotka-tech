@@ -1,49 +1,49 @@
 
-name: Github Action Template 
+# name: Github Action Template 
 
-on:
+# on:
 
-  pull_request:
-    branches: [ "main" ]
+#   pull_request:
+#     branches: [ "main" ]
 
-  schedule:
-    - cron:  '30 5,17 * * *'
+#   # schedule:
+#   #   - cron:  '30 5,17 * * *'
 
-  workflow_call:
-    inputs:
-      username:
-        description: 'A username passed from the caller workflow'
-        default: 'john-doe'
-        required: false
-        type: string
+#   workflow_call:
+#     inputs:
+#       username:
+#         description: 'A username passed from the caller workflow'
+#         default: 'john-doe'
+#         required: false
+#         type: string
 
-  permissions:
-    actions: read|write|none
+#   permissions:
+#     actions: read|write|none
 
-  # permissions : read|write|none
+#   # permissions : read|write|none
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
-jobs:
+# # A workflow run is made up of one or more jobs that can run sequentially or in parallel
+# jobs:
 
-  # This workflow contains a single job called "build"
+#   # This workflow contains a single job called "build"
 
-  build:
+#   build:
 
-    runs-on: ubuntu-latest
+#     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
+#     # Steps represent a sequence of tasks that will be executed as part of the job
 
-    steps:
+#     steps:
 
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v4
-        if: ${{ github.event_name == 'pull_request' && github.event.action == 'unassigned' }}
-        shell: zsh
-        name: NPM Install Package
-        run: npm install
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          first_name: Github
-          last_name: Action
-          args: The ${{ github.event_name }} event triggered this step.
-          entrypoint: /bin/echo
+#       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+#       - uses: actions/checkout@v4
+#         if: ${{ github.event_name == 'pull_request' && github.event.action == 'unassigned' }}
+#         shell: zsh
+#         name: NPM Install Package
+#         run: npm install
+#         with:
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#           first_name: Github
+#           last_name: Action
+#           args: The ${{ github.event_name }} event triggered this step.
+#           entrypoint: /bin/echo

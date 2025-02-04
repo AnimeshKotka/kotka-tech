@@ -11,6 +11,7 @@ export const Bio = () => {
       <p>
         When I'm not coding, you can find me exploring new technologies, contributing to 
         open-source projects, or sharing my knowledge through technical writing and mentoring.
+        <br/> Checkout my portfolio here: <a href="https://animesh-kotka.is-a.dev" target='_blank'>animesh-kotka.is-a.dev</a>
       </p>
     </div>
   );

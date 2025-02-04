@@ -1,0 +1,352 @@
+---
+title: S3 Examples Hands On
+sidebar_position: 2
+toc_min_heading_level: 2
+toc_max_heading_level: 6
+---
+import TOCInline from '@theme/TOCInline';
+import Tag from '@site/src/components/Tag';
+
+## Bash scripts using aws s3api
+
+### Create Bucket
+```sh
+aws s3api create-bucket \
+--bucket "$1" \
+--create-bucket-configuration '{"LocationConstraint":"ap-south-1"}' \
+--region ap-south-1 \
+--query Location \
+--output text
+```
+
+### List Buckets
+```sh
+aws s3 ls
+```
+
+### Empty a Bucket
+
+Get the list of all object keys in the bucket
+```sh
+object_keys=$(aws s3api list-objects-v2 --bucket "$bucket_name" --query 'Contents[].{Key: Key}' --output text)
+```
+
+Loop through and delete each object in the bucket
+```sh
+for key in $object_keys; do
+    aws s3api delete-object --bucket "$bucket_name" --key "$key"
+    if [ $? -eq 0 ]; then
+        echo "Deleted $key from bucket '$bucket_name'."
+    else
+        echo "Failed to delete $key."
+    fi
+done
+```
+
+### Delete a Bucket
+```sh
+aws s3api delete-bucket \
+--bucket "$BUCKET_NAME"
+```
+
+## Bucket Policy
+
+Create a new bucket
+
+```sh
+aws s3api create-bucket --bucket ak-bucket-policy --region us-east-1
+```
+
+Create a file policy.json and paste the below json
+
+```json
+{
+    "Statement": [
+       {
+          "Effect": "Allow",
+          "Principal": {
+            "AWS": "arn:aws:iam::472345033518:user/animesh.kotka@infrovate.com"
+          },
+          "Action": [
+              "s3:GetObject",
+              "s3:ListBucket",
+              "s3:PutObject",
+              "s3:DeleteObject"
+          ],
+          "Resource": [
+            "arn:aws:s3:::ak-bucket-policy",
+            "arn:aws:s3:::ak-bucket-policy/*"
+          ]
+       }
+    ]
+ }
+```
+
+Create bucket policy with json
+```sh
+aws s3api put-bucket-policy --bucket ak-bucket-policy --policy file://policy.json
+```
+
+## Change Storage Classes
+```sh
+echo hello world! > hello.txt
+```
+
+Create Bucket
+```sh
+aws s3 mb s3://chage-storage-class-example-321
+```
+
+Upload file with meta data
+```sh
+aws s3 cp hello.txt s3://chage-storage-class-example-321
+```
+
+Change storage class
+```sh
+aws s3 cp hello.txt s3://chage-storage-class-example-321 --storage-class STANDARD_IA
+```
+
+## Encryption
+
+### Change encryptions to sse-kms
+```sh
+aws s3api pub-object \
+--bucket $BUCKET_NAME \
+--key hello.txt \
+--body hello.txt \
+--server-side-encryption aws:kms \
+--ssekms-key-id <kms-aws-id>
+```
+
+
+### Change encryptions to SSC
+```sh
+export ENCODED_KEY_BASE64=$(openssl rand -base64 32)
+echo $ENCODED_KEY_BASE64
+```
+```sh
+export MD5_VALUE=$(echo $ENCODED_KEY_BASE64| md5sum | awk '{print $1}' | base64 -w0)
+echo $MD5_VALUE
+```
+
+```sh
+aws s3api put-object \
+--bucket $BUCKET_NAME \
+--key hello.txt \
+--body hello.txt \
+--sse-customer-algorithm AES256 \
+--sse-customer-key $ENCODED_KEY_BASE64 \
+--sse-customer-key-md5 $MD5_VALUE
+```
+
+### Put Object with SSE-C via aws s3
+https://catalog.us-east-1.prod.workshops.aws/workshops/aad9ff1e-b607-45bc-893f-121ea5224f24/en-US/s3/serverside/ssec
+
+ ```sh
+openssl rand -out ssec.key 32
+
+aws s3 cp hello.txt s3://$BUCKET_NAME/hello.txt \
+--sse-c AES256 \
+--sse-c-key fileb://ssec.key
+
+aws s3 cp s3://$BUCKET_NAME/hello.txt hello-de.txt --sse-c AES256 --sse-c-key fileb://ssec.key
+```
+
+## Metadata
+
+### Upload file with meta data
+
+```
+aws s3api put-object --bucket $BUCKET_NAME --key="hello.txt" --body="hello.txt" --metadata keyName=ValueName
+```
+
+### Get Object Head
+
+```
+aws s3api head-object --bucket $BUCKET_NAME --key="hello.txt"
+```
+
+## S3 Static site option/ CROS
+
+### Create a new bucket
+
+```sh
+aws s3api create-bucket --bucket ak-cros-321 --region us-east-1
+```
+
+### Turn of Block Public Access
+
+```sh   
+aws s3api put-public-access-block \
+--bucket ak-cros-321 \
+--public-access-block-configuration "BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=false,RestrictPublicBuckets=false"
+```
+
+### Add bucket policy for static hosting
+Create a `policy.json` file and paste code
+```json
+{
+    "Statement": [
+       {
+          "Sid": "PublicGetReadObject",
+          "Effect": "Allow",
+          "Principal": "*",
+          "Action": "s3:GetObject",
+          "Resource": "arn:aws:s3:::ak-cros-321/*"
+       }
+    ]
+ }
+```
+
+Update the bucket policy
+
+```sh
+aws s3api put-bucket-policy --bucket ak-cros-321 --policy file://policy.json
+```
+
+### Static website hosting in S3
+resource: https://awscli.amazonaws.com/v2/documentation/api/latest/reference/s3api/put-bucket-website.html
+
+create a `website.json` file
+```json
+{
+    "IndexDocument": {
+        "Suffix": "index.html"
+    },
+    "ErrorDocument": {
+        "Key": "error.html"
+    }
+}
+```
+Update the website configuration
+
+```sh
+aws s3api put-bucket-website --bucket ak-cros-321 --website-configuration file://website.json
+```
+
+### static site html upload
+Create `index.html` file
+```
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>AWS</h1>
+<p>AWS is awesome</p>
+
+</body>
+</html>
+```
+
+```sh
+aws s3 cp index.html s3://ak-cros-321
+```
+
+### Get website url
+http://ak-cros-321.s3-website-us-east-1.amazonaws.com/
+
+
+## ACL
+
+### Turn of Block Public Access for ACLs
+
+```sh
+aws s3api put-public-access-block \
+--bucket $BUCKET_NAME \
+--public-access-block-configuration "BlockPublicAcls=false,IgnorePublicAcls=false,BlockPublicPolicy=true,RestrictPublicBuckets=true"
+```
+
+```sh
+aws s3api get-public-access-block --bucket $BUCKET_NAME
+```
+
+### Change Bucket Ownership
+
+```sh
+aws s3api put-bucket-ownership-controls \
+--bucket $BUCKET_NAME \
+--ownership-controls="Rules=[{ObjectOwnership=BucketOwnerPreferred}]"
+```
+
+### Change ACLs to allow for a user in another AWS Account
+
+```sh
+aws s3api put-bucket-acl \
+--bucket $BUCKET_NAME \
+--access-control-policy file:///workspace/AWS-Examples/s3/acls/policy.json
+```
+
+### Access Bucket from other account
+
+```sh
+touch bootcamp.txt
+aws s3 cp bootcamp.txt s3://$BUCKET_NAME
+aws s3 ls s3://$BUCKET_NAME
+```
+
+## Clean Up
+
+```sh
+aws s3 rm s3://ak-acl-321/bootcamp.txt
+aws s3 rb s3://ak-acl-321
+```
+
+## Infrastructure
+
+### CloudFront
+create a `template.yml` file and paste the value
+```yaml
+AWSTemplateFormatVersion : "2010-09-09"
+Description : "S3 bucket"
+Resources:
+  S3Bucket:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+```
+Also checkout the resource: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-s3-bucket.html#aws-resource-s3-bucket--examples--Create_an_S3_bucket
+
+### Terraform
+Create a `main.tf` file
+
+```tf
+terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+      version = "5.66.0"
+    }
+  }
+}
+
+provider "aws" {
+}
+```
+
+Create a `s3.tf` file. You can name it anything as you want
+
+```tf
+resource "aws_s3_bucket" "example" {
+  bucket = "my-tf-bucket-123"
+
+  tags = {
+    Name        = "My bucket"
+    Environment = "Dev"
+  }
+}
+```
+
+To initialize the dependencise run 
+```sh
+terraform init
+```
+
+To apply changes run
+```sh
+terraform apply
+```
+
+To Clean Up run
+```tf
+terraform destroy
+```
