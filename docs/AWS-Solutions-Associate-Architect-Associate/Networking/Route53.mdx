@@ -70,6 +70,11 @@ It is recommended to use DNS names or URLs instead of IPs wherever possible
 - Use case: testing a new application version by sending a small amount of traffic
 - Can be used for **Active-Active failover** strategy
 
+:::note Use Case
+Weighted routing is beneficial for testing new deployments or gradually migrating traffic to a new version of an application.
+It provides a controlled way to manage the traffic distribution between different resources.
+:::
+
 ### Latency-based
 
 - Redirect to the resource that has the lowest latency
