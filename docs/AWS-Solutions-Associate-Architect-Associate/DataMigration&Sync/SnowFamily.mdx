@@ -1,0 +1,69 @@
+---
+title: Snow Family
+sidebar_position: 1
+toc_min_heading_level: 2
+toc_max_heading_level: 6
+---
+import TOCInline from '@theme/TOCInline';
+import Tag from '@site/src/components/Tag';
+
+{/* <TOCInline toc={toc} minHeadingLevel={2} maxHeadingLevel={6} /> */}
+
+## Introduction
+
+- Offline data migration to [Simple Storage Service (S3)](../Storage/SImple-Storage-Service-S3.mdx)
+- Used when it takes a long time to transfer data over the network
+- **Takes around 2 weeks to transfer the data**
+- **Snowball cannot import to Glacier directly** (transfer to S3, configure a lifecycle policy to transition the data into Glacier)
+- Pay per data transfer job
+- Hardware devices for
+  - Data Migration (between AWS & on-premise data center)
+  - Edge Computing
+- Need to install **OpsHub** software on your computer to manage Snow Family devices
+
+## Devices
+- <Tag color="#FF5733">Snowcone</Tag>
+  - 2 CPUs, **4GB RAM**, wired or wireless access
+  - 8 TB storage
+  - USB-C power using a cord or the optional battery
+  - Good for space-constrained environment
+  - **DataSync Agent** is preinstalled
+  - Does not support **Storage Clustering**
+- <Tag color="#FF5733">Snowball Edge</Tag>
+  - **Compute Optimized**
+    - 52 vCPUs, 208 GB of RAM
+    - 42 TB storage
+    - **Optional GPU** (useful for video processing or machine learning)
+    - Supports **Storage Clustering**
+  - **Storage Optimized**
+    - Up to 40 CPUs, 80 GB of RAM
+    - 80 TB storage
+    - Supports **Storage Clustering** (up to 15 nodes)
+    - Transfer up to petabytes
+- <Tag color="#FF5733">Snowmobile</Tag>
+  - 100 PB storage
+  - Used when transferring > 10PB
+  - Transfer up to exabytes
+  - Does not support **Storage Clustering**
+
+## Data Migration
+- **Provides block storage and Amazon S3-compatible object storage**
+- Usage process
+  - Request Snowball devices from the AWS console for delivery
+  - **Install the snowball client / AWS OpsHub on your servers**
+  - Connect the snowball to your servers and copy files using the client
+  - Ship back the device when you’re done (goes to the right AWS facility)
+  - Data will be loaded into an S3 bucket
+  - **Snowball is completely wiped**
+- Devices for data migration
+  - Snowcone
+  - Snowball Edge - Storage Optimized
+  - Snowmobile
+
+## Edge Computing
+- Process data while it's being created on an edge location (could be anything that doesn’t have internet or access to cloud)
+- Long-term deployment options for reduced cost (1 and 3 years discounted pricing)
+- Devices for edge computing
+  - Snowcone
+  - Snowball Edge
+- Can run **EC2 Instances & AWS Lambda functions locally on Snow device** (using **AWS loT Greengrass**)
