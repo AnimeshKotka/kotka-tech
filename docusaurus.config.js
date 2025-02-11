@@ -10,6 +10,11 @@ import {themes as prismThemes} from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
+  scripts: [{
+    src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8107047368861875',
+    async: true,
+    crossorigin: 'anonymous'
+  }],
   title: 'Animesh Kotka',
   tagline: 'Your technical guy to Tech Care your problems',
   favicon: 'img/test1.ico',
@@ -165,5 +170,10 @@ const config = {
       },
     }),
 };
+
+/**
+ * <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8107047368861875"
+     crossorigin="anonymous"></script>
+ */
 
 export default config;
