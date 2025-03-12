@@ -1,0 +1,58 @@
+---
+title: DynamoDB
+sidebar_position: 9
+toc_min_heading_level: 2
+toc_max_heading_level: 6
+---
+import TOCInline from '@theme/TOCInline';
+import Tag from '@site/src/components/Tag';
+
+{/* <TOCInline toc={toc} minHeadingLevel={1} maxHeadingLevel={1} /> */}
+
+### Indroduction
+-----------------------------------------------------------------------
+- Serverless NoSQL DB with multi-AZ
+- Distributed Database
+- Not an in-memory database (uses storage devices)
+- Storage auto-scaling
+- <Tag color="#3c81e8">Single digit millisecond</Tag> response time at any scale
+- **Maximum size of an item: 400 KB**
+- Primary key (must be decided at creation) can be a single field or a pair of fields (partition key and sort key)
+- Indexes allow us to query on attributes other than the Primary Key
+- Supports TTL (automatically delete an item after an expiry timestamp)
+- Supports Transactions (either write to multiple tables or write to none)
+
+
+### Capacity
+-----------------------------------------------------------------------
+- <Tag color="#2b68a6">Provisioned Mode</Tag> (default)
+  - Provision read & write capacity
+  - Pay for the provisioned capacity
+  - Auto-scaling option (eg. set RCU and WCU to 80% and the capacities will be scaled automatically based on the workload)
+- <Tag color="#2b68a6">On-demand Mode</Tag>
+  - Capacity auto-scaling based on the workload
+  - Pay for what you use (more expensive)
+  - Great for unpredictable workloads
+
+### DynamoDB Accelerator (DAX)
+-----------------------------------------------------------------------
+- Caches the queries and scans of DynamoDB items
+- Solves read congestion (ProvisionedThroughputExceededException)
+- **Microseconds latency for cached data**
+- Doesn't require application code changes
+- 5 minutes TTL for cache (default)
+
+### DynamoDB Streams
+-----------------------------------------------------------------------
+- Ordered stream of notifications of item-level modifications (create/update/delete) in a table
+- Destination can be
+  - Kinesis Data Streams
+  - AWS Lambda
+  - Kinesis Client Library applications
+- Data Retention for up to 24 hours
+
+### Global Tables
+-----------------------------------------------------------------------
+- For low latency access in multiple-regions
+- Applications can READ and WRITE to the table in any region and the change will automatically be replicated to other tables (**active-active cross-region replication**)
+- <Tag color="#38ab5d">Must enable DynamoDB Streams as a pre-requisite</Tag>
