@@ -1,0 +1,23 @@
+---
+title: Site-to-Site VPN
+sidebar_position: 5
+toc_min_heading_level: 2
+toc_max_heading_level: 6
+---
+import TOCInline from '@theme/TOCInline';
+import Tag from '@site/src/components/Tag';
+
+
+*   Easiest and most cost-effective way to connect a VPC to an on-premise data center
+*   **IPSec Encrypted** connection through the public internet
+*   **Virtual Private Gateway (VGW)**: VPN concentrator on the VPC side of the VPN connection
+*   **Customer Gateway (CGW)**: Software application or physical device on customer side of the VPN connection
+*   If you need to ping EC2 instances from on-premises, make sure you add the **ICMP protocol** on the inbound rules of your security groups ![attachments/Pasted image 20220512224053.jpg](./images/Pasted%20image%2020220512224053.jpg)
+
+## VPN CloudHub
+-----------------------------------------------
+
+*   **Low-cost hub-and-spoke model** for **network connectivity between a VPC and multiple on-premise data centers**
+*   Every participating network can communicate with one another through the VPN connection ![attachments/Pasted image 20220512224648.jpg](./images/Pasted%20image%2020220512224648.jpg)
+
+* * *
