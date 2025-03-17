@@ -1,0 +1,26 @@
+---
+title: Private Link
+sidebar_position: 4
+toc_min_heading_level: 2
+toc_max_heading_level: 6
+---
+import TOCInline from '@theme/TOCInline';
+import Tag from '@site/src/components/Tag';
+
+
+*   Used to expose **services** in one VPC to multiple other VPCs, possibly in **different accounts**
+*   Should not use VPC peering as we only want to expose a few services
+*   Requires a **NLB (common) or GWLB in the service VPC** and **ENI in the consumer VPC**
+*   Use multi-AZ NLB and ENIs in multiple AZ for fault-tolerance
+
+![attachments/Pasted image 20220512235655.jpg](./images/Pasted%20image%2020220512235655.jpg)
+
+## Exposing ECS tasks
+-----------------------------------------------------------
+
+*   ECS tasks require an ALB. So, we can connect the ALB to the NLB for PrivateLink.
+*   Corporate Data Centers will still connect through the VPN or Direct Connect.
+
+![attachments/Pasted image 20220513000308.jpg](./images/Pasted%20image%2020220513000308.jpg)
+
+* * *
