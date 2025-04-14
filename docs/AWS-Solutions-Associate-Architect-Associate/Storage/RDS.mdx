@@ -87,7 +87,7 @@ You can create a read replica as a Multi-AZ DB instance. A standby of the replic
 
 ### Access Management
 - Username and Password can be used to login into the database
-- EC2 instances & Lambda functions should access the DB using IAM DB Authentication (AWSAuthenticationPlugin with IAM) - token based access
+- EC2 instances & Lambda functions should access the DB using <Tag color="#FF5733">IAM DB Authentication (AWSAuthenticationPlugin with IAM)</Tag> - token based access
   - EC2 instance or Lambda function has an IAM role which allows is to make an API call to the RDS service to get the **auth token** which it uses to access the MySQL database.
   - ![Multi AZs](/img/rds-iam.jpg)
   - Only works with **MySQL** and **PostgreSQL**

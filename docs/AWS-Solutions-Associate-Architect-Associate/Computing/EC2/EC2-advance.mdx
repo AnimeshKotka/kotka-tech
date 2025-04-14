@@ -20,19 +20,19 @@ import Tag from '@site/src/components/Tag';
 
 ## Placement Groups (Placement Strategies)
 
-- Cluster Placement Group (optimize for network)
+- <Tag title='h2'>Cluster Placement Group (optimize for network)</Tag>
   - All the instances are placed on the same hardware (same rack in same AZ)
   - Pros: Great network (10 Gbps bandwidth between instances) low latency, high profermance
   - Cons: If the rack fails (AZ), all instances will fail at the same time
   - Used in **HPC** (minimize inter-node latency & maximize throughput) and Big data job that needs to complete fast
 
-- Spread Placement Group (maximize availability)
+- <Tag title='h2'>Spread Placement Group (maximize availability)</Tag>
   - Each instance is in a separate rack (physical hardware) inside an AZ
   - Supports Multi AZ
   - Up to 7 instances per AZ per placement group (ex. for 15 instances, need 3 AZ)
   - Reduce the risk and Used for critical applications
 
-- Partition Placement Group (balance of performance and availability)
+- <Tag title='h2'>Partition Placement Group (balance of performance and availability)</Tag>
   - Instances in a partition share rack with each other
   - If the rack goes down, the entire partition goes down
   - Up to 7 partitions per AZ
