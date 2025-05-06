@@ -7,6 +7,7 @@ import '../css/about.css';
 import { Profile } from '../components/about/Profile';
 import { Bio } from '../components/about/Bio';
 import { Skills } from '../components/about/Skills';
+import { GitProcess } from '../components/about/git-process';
 // import Main from '../components/Portfolio/Main/Main';
 // import Expertise from '../components/Portfolio/Expertices/Expertise';
 
@@ -23,6 +24,7 @@ export default function About() {
       <Profile/>
       <Bio/>
       <Skills/>
+      <GitProcess/>
     </div>
       {/* <Main/>
       <Expertise/> */}

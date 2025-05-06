@@ -9,7 +9,7 @@ export const Profile = () => {
         className="profile-image"
       />
       <h1 className="name">Animesh Kotka</h1>
-      <p className="title">Full Stack Developer</p>
+      <p className="title">Full Stack Blockchain Developer</p>
     </div>
   );
 };
