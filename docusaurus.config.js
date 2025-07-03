@@ -140,7 +140,7 @@ const config = {
               },
               {
                 label: 'Portfolio',
-                href: 'https://animeshkotka.github.io/Animesh-Kotka-Portfolio/',
+                href: 'https://animesh-kotka.is-a.dev/',
               },
               {
                 label: 'X',

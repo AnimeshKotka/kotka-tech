@@ -156,6 +156,10 @@ As a bucket owner, you can create a bucket policy to require external users to g
     - Small monthly monitoring and auto-tiering fee
     - No retrieval charges
 
+:::note
+For better understanding checkout [Here](../CouseHighLights/ImportantHighLight.mdx)
+:::
+
 ### Lifecycle Rules
 - Used to automate transition or expiration actions on S3 objects
 - Transition Action (transitioned to another storage class)
@@ -188,7 +192,7 @@ As a bucket owner, you can create a bucket policy to require external users to g
   - **Byte-range fetches**
     - Parallelize download requests by fetching specific byte ranges in each request
     - Better resilience in case of failures since we only need to refetch the failed byte range and not the whole file
-  - **S3 Transfer Acceleration**
+  - <Tag color='RED'> **S3 Transfer Acceleration** </Tag>
     - Speed up upload and download for large objects (>1GB) for global users
     - Data is ingested at the nearest edge location and is transferred over AWS private network (uses CloudFront internally)
 
