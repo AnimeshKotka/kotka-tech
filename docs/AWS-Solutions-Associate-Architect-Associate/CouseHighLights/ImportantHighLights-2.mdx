@@ -8,33 +8,104 @@ toc_max_heading_level: 6
 import TOCInline from '@theme/TOCInline';
 import Tag from '@site/src/components/Tag';
 
-- **AWS Secrets Manager** helps you protect secrets needed to access your applications, services, and IT resources.
-	The service enables you to easily rotate, manage, and retrieve database credentials, API keys, and other secrets throughout their lifecycle.
-	Users and applications retrieve secrets with a call to Secrets Manager APIs, eliminating the need to hardcode sensitive information in plain text.
-	Secrets Manager offers secret rotation with built-in integration for Amazon RDS, Amazon Redshift, and Amazon DocumentDB.
-	**KMS is an encryption service, it's not a secrets store**.
-- **Auto Scaling group (ASG) is not terminating an unhealthy Amazon EC2 instance:**
-	- The instance maybe in Impaired status
-	- The health check **grace period** for the instance has not expired
-	- Instance has failed the Elastic Load Balancing (ELB) health check status
-	
-- ![ASG termination policies](../../../static/assets/pt2-q65-i1.jpg)
-- **Amazon RDS Read Replicas** are meant to address scalability issues. You cannot use read replicas for improving availability.
-	![Amazon RDS RR](../../../static/assets/pt2-q8-i1.jpg)
-- **Amazon RDS stores** the DB snapshots in the Amazon S3 bucket belonging to the same AWS region where the Amazon RDS instance is located. Amazon RDS stores these on your behalf and you do not have direct access to these snapshots in Amazon S3
-- ** **DNS hostnames** and **DNS resolution** are required settings for private hosted zones. DNS queries for private hosted zones can be resolved by the Amazon-provided VPC DNS server only.
-As a result, these options must be enabled for your private hosted zone to work.
-- **DNS hostnames**: For non-default virtual private clouds that aren't created using the Amazon VPC wizard, this option is disabled by default. If you create a private hosted zone for a domain and create records in the zone without enabling DNS hostnames, private hosted zones aren't enabled. To use a private hosted zone, this option must be enabled.
-- **DNS resolution**: Private hosted zones accept DNS queries only from a VPC DNS server. The IP address of the VPC DNS server is the reserved IP address at the base of the VPC IPv4 network range plus two.
-Enabling DNS resolution allows you to use the VPC DNS server as a Resolver for performing DNS resolution. Keep this option disabled if you're using a custom DNS server in the DHCP Options set, and you're not using a private hosted zone.
-- **Amazon RDS Read Replicas** is billed as a standard DB Instance and at the same rates. You are not charged for the data transfer incurred in replicating data between your source DB instance and read replica within the same AWS Region.
-- **EC2**:  Scripts entered as user data are executed as the root user, hence do not need the sudo command in the script. Any files you create will be owned by root; if you need non-root users to have file access, you should modify the permissions accordingly in the script.
-- **Cluster Placement Group** - packs instances close together inside an Availability Zone. This strategy enables workloads to achieve the low-latency network performance necessary for tightly-coupled node-to-node communication that is typical of HPC applications. This is not suited for distributed and replicated workloads such as Hadoop.
-- **Partition placement group** - spreads your instances across logical partitions such that groups of instances in one partition do not share the underlying hardware with groups of instances in different partitions.
-	This strategy is typically used by large distributed and replicated workloads, such as Hadoop, Cassandra, and Kafka. Therefore, this is the correct option for the given use-case.
-- **Spread Placement Group** - strictly places a small group of instances across distinct underlying hardware to reduce correlated failures. This is not suited for distributed and replicated workloads such as Hadoop.
-- When an **Amazon Kinesis Data Stream** is configured as the source of a **Kinesis Firehose delivery stream**, Firehose’s `PutRecord` and `PutRecordBatch` operations are disabled and Kinesis Agent cannot write to Kinesis Firehose Delivery Stream directly. Data needs to be added to the Amazon Kinesis Data Stream through the Kinesis Data Streams `PutRecord` and `PutRecords` operations instead.
-- ![Routing policies](../../../static/assets/pt2-q6-i1.jpg)
-- Consider an organization that has built a hub-and-spoke network with **AWS Transit Gateway**. VPCs have been provisioned into multiple AWS accounts, perhaps to facilitate network isolation or to enable delegated network administration.
-	When deploying distributed architectures such as this, a popular approach is to build a "shared services VPC, which provides access to services required by workloads in each of the VPCs. This might include directory services or VPC endpoints.
-	Sharing resources from a central location instead of building them in each VPC may reduce administrative overhead and cost.
+## Secrets Management
+
+- <Tag color="#ffb347">AWS Secrets Manager</Tag> helps you protect secrets needed to access your applications, services, and IT resources.
+  - Enables easy rotation, management, and retrieval of database credentials, API keys, and other secrets.
+  - Applications can retrieve secrets via <Tag color="#ffb347">Secrets Manager APIs</Tag>, removing the need to hardcode secrets.
+  - Offers secret rotation with <Tag color="#87cefa">Amazon RDS</Tag>, <Tag color="#87cefa">Amazon Redshift</Tag>, and <Tag color="#87cefa">Amazon DocumentDB</Tag>.
+  - <Tag color="#fa8072">Note:</Tag> <Tag color="#f08080">KMS</Tag> is an encryption service, <Tag color="#fa8072">not a secrets store</Tag>.
+
+---
+
+## Auto Scaling Group (ASG) Behavior
+
+- <Tag color="#ffb347">Auto Scaling Group</Tag> is not terminating an unhealthy <Tag color="#87cefa">Amazon EC2</Tag> instance:
+  - Instance may be in <Tag color="#f4a460">Impaired</Tag> status.
+  - The health check <Tag color="#f08080">grace period</Tag> has not yet expired.
+  - Instance has failed the <Tag color="#87cefa">ELB</Tag> health check.
+
+![ASG termination policies](../../../static/assets/pt2-q65-i1.jpg)
+
+---
+
+## Amazon RDS
+
+- <Tag color="#ffb347">Read Replicas</Tag> are used for <Tag color="#90ee90">scalability</Tag> (not availability).
+  ![Amazon RDS RR](../../../static/assets/pt2-q8-i1.jpg)
+
+- <Tag color="#ffb347">DB Snapshots</Tag> are stored in an <Tag color="#87cefa">S3 bucket</Tag> in the same region.
+  - No direct access is granted to these snapshots.
+
+- <Tag color="#ffb347">Billing:</Tag>
+  - Read replicas are billed as standard DB instances.
+  - No charges for intra-region replication traffic.
+
+---
+
+## DNS Settings for Private Hosted Zones
+
+<Tag color="#ffb347">DNS hostnames</Tag> and <Tag color="#ffb347">DNS resolution</Tag> are required for private hosted zones to function.
+
+### DNS Hostnames
+
+- Disabled by default in non-default VPCs.
+- Must be enabled to use private hosted zones.
+
+### DNS Resolution
+
+- Works only with the <Tag color="#87cefa">VPC DNS server</Tag> (reserved IP: base of VPC IPv4 + 2).
+- Enable only if using <Tag color="#87cefa">private hosted zones</Tag>, not if using custom DNS servers via DHCP options.
+
+---
+
+## EC2 User Data Scripts
+
+- Scripts run as <Tag color="#f08080">root</Tag> (no need for `sudo`).
+- Files are owned by root.
+- Adjust permissions for non-root access.
+
+---
+
+## Placement Groups in EC2
+
+### <Tag color="#ffb347">Cluster Placement Group</Tag>
+
+- Packs instances in one AZ for <Tag color="#90ee90">low-latency</Tag>.
+- Best for <Tag color="#87cefa">HPC</Tag> workloads.
+- Not for distributed workloads like <Tag color="#f4a460">Hadoop</Tag>.
+
+### <Tag color="#ffb347">Partition Placement Group</Tag>
+
+- Spreads across partitions with separate hardware.
+- Ideal for <Tag color="#90ee90">distributed, replicated systems</Tag> like <Tag color="#f4a460">Kafka</Tag>, <Tag color="#f4a460">Hadoop</Tag>, <Tag color="#f4a460">Cassandra</Tag>.
+
+### <Tag color="#ffb347">Spread Placement Group</Tag>
+
+- Spreads a few instances across distinct hardware.
+- Reduces correlated failure risk.
+- Not for distributed workloads like Hadoop.
+
+---
+
+## Amazon Kinesis & Firehose
+
+- With <Tag color="#ffb347">Kinesis Data Stream</Tag> as the source for <Tag color="#87cefa">Kinesis Firehose</Tag>:
+  - Firehose's `PutRecord` and `PutRecordBatch` are <Tag color="#fa8072">disabled</Tag>.
+  - <Tag color="#f08080">Kinesis Agent</Tag> cannot write directly to Firehose.
+  - Use <Tag color="#87cefa">Kinesis Data Streams</Tag> `PutRecord` and `PutRecords` APIs.
+
+![Routing policies](../../../static/assets/pt2-q6-i1.jpg)
+
+---
+
+## AWS Transit Gateway & Shared Services Architecture
+
+- In a <Tag color="#87cefa">hub-and-spoke</Tag> architecture, <Tag color="#ffb347">Transit Gateway</Tag> connects VPCs across accounts.
+- A <Tag color="#f08080">Shared Services VPC</Tag> centralizes services like:
+  - <Tag color="#87cefa">Directory Services</Tag>
+  - <Tag color="#87cefa">VPC Endpoints</Tag>
+
+<Tag color="#90ee90">Benefits:</Tag>
+- Reduces duplication and admin overhead.
+- Centralized control and cost efficiency.

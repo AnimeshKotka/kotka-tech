@@ -8,62 +8,140 @@ toc_max_heading_level: 6
 import TOCInline from '@theme/TOCInline';
 import Tag from '@site/src/components/Tag';
 
-- A launch template specifies instance configuration information. It includes the ID of the Amazon Machine Image (AMI), the instance type, a key pair,
-  security groups, and other parameters used to launch EC2 instances.
-  While creating a Launch Template, **the default value for the instance tenancy is shared and the instance tenancy is controlled by the tenancy attribute of the VPC**.
-  If you set the Launch Template Tenancy to shared (default) and the VPC Tenancy is set to dedicated, then the instances have dedicated tenancy.
-  If you set the Launch Template Tenancy to dedicated and the VPC Tenancy is set to default, then again the instances have dedicated tenancy.
-- By default, Amazon EC2 instances run on a shared-tenancy basis.
-	- Dedicated Instances are Amazon EC2 instances that run in a virtual private cloud (VPC) on hardware that's dedicated to a single customer. 
-    Dedicated Instances that belong to different AWS accounts are physically isolated at the hardware level.
-    However, Dedicated Instances may share hardware with other instances from the same AWS account that is not Dedicated Instances.
-	- A Dedicated Host is also a physical server that's dedicated to your use. With a Dedicated Host, you have visibility and control over how instances are placed on the server.
-	- ![image](../../../static/assets/pt4-q16-i1.jpg)
-- A **Spot Instance** is an unused **Amazon EC2 instance** that is available for less than the On-Demand price. Because Spot Instances enable you to request unused Amazon EC2 instances at steep discounts,
-you can lower your Amazon EC2 costs significantly. The hourly price for a Spot Instance is called a Spot price.
-The Spot price of each instance type in each Availability Zone is set by Amazon EC2 and adjusted gradually based on the long-term supply of and demand for Spot Instances.
-- **Recover Impaired EC2 instance** : Amazon CloudWatch alarm to automatically recover the Amazon EC2 instance if it becomes impaired due to an underlying hardware failure or a problem that requires AWS involvement to repair.
-  Terminated instances cannot be recovered. A recovered instance is identical to the original instance, including the instance ID, private IP addresses, Elastic IP addresses, and all instance metadata.
-  If the impaired instance is in a placement group, the recovered instance runs in the placement group. If your instance has a public IPv4 address, **it retains the public IPv4 address after recovery**.
-  During instance recovery, the instance is migrated during an instance reboot, and any data that is in-memory is lost.
-- **FSx for Lustre with Deployment Type as Scratch File System** is designed for temporary storage and shorter-term data processing.
-  Data isn't replicated and doesn't persist if a file server fails.
-  Scratch file systems provide high burst throughput of up to six times the baseline throughput of 200 MBps per TiB storage capacity.
-- **Amazon Redshift** is a fully managed, <Tag color="RED">petabyte-scale data warehouse service</Tag> in the cloud. With an Amazon Redshift database as a target, you can migrate data from all of the other supported source databases.
-- **Amazon Route 53** <Tag color="BLUE">doesn't charge for alias queries</Tag> to AWS resources but Route 53 does charge for CNAME queries.
-  Additionally, an alias record can only redirect queries to selected AWS resources such as Amazon S3 buckets, Amazon CloudFront distributions,
-  and another record in the same Amazon Route 53 hosted zone; however a CNAME record can redirect DNS queries to any DNS record.
+## Launch Templates and Tenancy
 
-- You can create an alias record at the top node of a DNS namespace, also known as the zone apex, however, you cannot create a CNAME record for the top node of the DNS namespace.
-  So, if you register the DNS name covid19survey.com, the zone apex is covid19survey.com. You can't create a CNAME record for covid19survey.com,
-  but you can create an alias record for covid19survey.com that routes traffic to www.covid19survey.com.
+- A <Tag color="#ffb347">launch template</Tag> specifies instance configuration (AMI ID, instance type, key pair, security groups, etc.).
+- Default tenancy: <Tag color="#f08080">shared</Tag>.
+- Tenancy behavior:
+  - Launch Template: `shared`, VPC: `dedicated` → <Tag color="#90ee90">dedicated tenancy</Tag>
+  - Launch Template: `dedicated`, VPC: `default` → <Tag color="#90ee90">dedicated tenancy</Tag>
 
-- An **Internet Gateway** serves two purposes: to provide a target in your VPC route tables for internet-routable traffic and to perform <Tag color="BLUE"> network address translation (NAT) for instances </Tag> that have been assigned public IPv4 addresses.
-- A **Spot Instance** request is either <Tag color="YELLOW">one-time</Tag> or <Tag color="PINK">persistent</Tag>. If the spot request is persistent, the request is opened again after your Spot Instance is interrupted.
-  If the request is persistent and you stop your Spot Instance, the request only opens after you start your Spot Instance.
-  - Spot Fleets can maintain target capacity by launching replacement instances after Spot Instances in the fleet are terminated
-  - When you cancel an active spot request, it does not terminate the associated instance
-  - When you cancel an active spot request, it terminates the associated instance as well
-- **Amazon SQS** provides short polling and long polling to receive messages from a queue. By default, queues use short polling.
-  With short polling, Amazon SQS sends the response right away, even if the query found no messages. With long polling, Amazon SQS sends a response after it collects at least one available message, up to the maximum number of messages specified in the request.
-  Amazon SQS sends an empty response only if the polling wait time expires.
-  <br/><br/><Tag color="BLUE">Long polling makes it inexpensive</Tag> to retrieve messages from your Amazon SQS queue as soon as the messages are available. Using long polling can reduce the cost of using SQS because you can reduce the number of empty receives.
-- **AWS CloudFormation StackSet** extends the functionality of stacks by enabling you to create, update, or delete stacks across multiple accounts and regions with a single operation.
-  A stack set lets you create stacks in AWS accounts across regions by using a single AWS CloudFormation template. Using an administrator account of an "AWS Organization",
-  you define and manage an AWS CloudFormation template, and use the template as the basis for provisioning stacks into selected target accounts of an "AWS Organization" across specified regions.
+---
 
-- **Elastic Load Balancing** stops sending requests to instances that are de-registering or unhealthy while keeping the existing connections open, use <Tag color="BLUE">connection draining</Tag>. This enables the load balancer to complete in-flight requests made to instances that are de-registering or unhealthy.
-  The maximum timeout value can be set between 1 and 3,600 seconds (the default is 300 seconds).
-  When the maximum time limit is reached, the load balancer forcibly closes connections to the de-registering instance.
-- <Tag color="BLUE">The active-active configuration</Tag> of **DynamoDB global tables**, there is no concept of failover because the application <ins>writes to the table in its region, and then the data is replicated to keep the other regions' table in sync.</ins>
-  DynamoDB global tables is a much costlier solution than Aurora Global Database for the given requirement. 
-- **VPC sharing (part of Resource Access Manager) **allows multiple AWS accounts to create their application resources such as Amazon EC2 instances, Amazon RDS databases, Amazon Redshift clusters, and AWS Lambda functions, into shared and centrally-managed Amazon Virtual Private Clouds (VPCs).
-  Using VPC sharing, an account that owns the VPC (owner) shares <Tag color="GREEN">one or more subnets with other accounts</Tag> (participants) that belong to the same organization from AWS Organizations. The owner account cannot share the VPC itself.
-- <Tag color="RED">Elastic Fabric Adapter (EFA)</Tag>
-  - An Elastic Fabric Adapter (EFA) is a network device that you can attach to your Amazon EC2 instance to accelerate High Performance Computing (HPC) and machine learning applications.
-    It enhances the performance of inter-instance communication that is critical for scaling HPC and machine learning applications.
-    EFA devices provide all Elastic Network Adapter (ENA) devices functionalities plus a new OS bypass hardware interface that allows user-space applications to communicate directly with the hardware-provided reliable transport functionality.
- 
+## EC2 Tenancy Options
 
+- By default, <Tag color="#ffb347">Amazon EC2</Tag> instances run on <Tag color="#f08080">shared tenancy</Tag>.
+- <Tag color="#ffb347">Dedicated Instances</Tag>:
+  - Run on hardware dedicated to one customer.
+  - Isolated across AWS accounts but can share hardware across instances within same account.
+- <Tag color="#ffb347">Dedicated Hosts</Tag>:
+  - Full control over instance placement.
+  - Visibility into physical server.
 
+![image](../../../static/assets/pt4-q16-i1.jpg)
 
+---
+
+## EC2 Spot Instances
+
+- <Tag color="#ffb347">Spot Instance</Tag> = unused EC2 at reduced price.
+- Pricing is determined by long-term demand/supply in each AZ.
+- Spot Instance request types:
+  - <Tag color="YELLOW">One-time</Tag>
+  - <Tag color="PINK">Persistent</Tag>
+- <Tag color="#87cefa">Persistent</Tag> requests reopen after interruption.
+  - Spot Fleets maintain target capacity by launching replacements.
+  - Canceling requests:
+    - May or may not terminate instance depending on config.
+
+---
+
+## EC2 Recovery
+
+- <Tag color="#ffb347">Recover impaired EC2 instance</Tag> using <Tag color="#87cefa">CloudWatch alarms</Tag>.
+- Recovery applies to hardware failure or AWS-repairable issues.
+- Preserves:
+  - Instance ID
+  - Private & Elastic IPs
+  - Metadata
+- If instance is in a placement group, recovery remains within group.
+- <Tag color="#f08080">Note:</Tag> Data in memory is lost.
+
+---
+
+## FSx for Lustre
+
+- Use <Tag color="#ffb347">FSx for Lustre</Tag> with <Tag color="#f08080">Scratch File System</Tag> for:
+  - Temporary storage
+  - Short-term data processing
+- No replication, non-persistent if a file server fails.
+- Up to 6× burst throughput of baseline 200 MBps/TiB.
+
+---
+
+## Amazon Redshift
+
+- <Tag color="#ffb347">Amazon Redshift</Tag> is a fully managed <Tag color="RED">petabyte-scale data warehouse</Tag> in the cloud.
+- Can be a target for data migration from other databases.
+
+---
+
+## Route 53: Alias vs CNAME
+
+- <Tag color="#ffb347">Amazon Route 53</Tag>:
+  - <Tag color="BLUE">No charge for alias queries</Tag>, but charges for CNAME.
+  - Alias → AWS resources only (S3, CloudFront, same hosted zone).
+  - CNAME → Any DNS record.
+- At zone apex (`covid19survey.com`):
+  - <Tag color="#fa8072">Cannot create CNAME</Tag>
+  - <Tag color="#90ee90">Can create alias</Tag> (e.g., point to `www.covid19survey.com`)
+
+---
+
+## Internet Gateway
+
+- <Tag color="#ffb347">Internet Gateway</Tag>:
+  - Acts as route target for internet-bound traffic.
+  - Performs <Tag color="BLUE">network address translation (NAT)</Tag> for public IPv4 instances.
+
+---
+
+## Amazon SQS Polling
+
+- <Tag color="#ffb347">Amazon SQS</Tag> supports:
+  - <Tag color="#87cefa">Short polling</Tag>: immediate response, may be empty.
+  - <Tag color="#90ee90">Long polling</Tag>: waits for messages up to a timeout.
+- <br/><br/><Tag color="BLUE">Long polling makes it inexpensive</Tag> to retrieve messages, reducing cost and empty receives.
+
+---
+
+## AWS CloudFormation StackSets
+
+- <Tag color="#ffb347">StackSet</Tag> = CloudFormation + multi-account + multi-region.
+- Uses one template from admin account.
+- Provisions into target accounts/org units across regions.
+
+---
+
+## Elastic Load Balancer: Connection Draining
+
+- <Tag color="#ffb347">Elastic Load Balancing</Tag>:
+  - Uses <Tag color="BLUE">connection draining</Tag> for:
+    - De-registering or unhealthy instances.
+    - Preserves existing connections until timeout (1–3600s, default: 300s).
+  - After timeout, force-closes remaining connections.
+
+---
+
+## DynamoDB Global Tables
+
+- <Tag color="BLUE">Active-active configuration</Tag> in <Tag color="#ffb347">DynamoDB global tables</Tag>:
+  - No failover – data is written regionally and replicated.
+  - More expensive than Aurora Global Database.
+
+---
+
+## VPC Sharing
+
+- <Tag color="#ffb347">VPC sharing</Tag> via <Tag color="#87cefa">Resource Access Manager (RAM)</Tag>:
+  - Allows multiple accounts to deploy resources in a shared VPC.
+  - Owner shares <Tag color="GREEN">subnets</Tag> (not VPC itself) with org participants.
+
+---
+
+## Elastic Fabric Adapter (EFA)
+
+- <Tag color="RED">Elastic Fabric Adapter (EFA)</Tag>:
+  - Enhances <Tag color="#90ee90">HPC</Tag> and <Tag color="#90ee90">ML</Tag> inter-instance communication.
+  - Adds OS-bypass interface to ENA features.
+  - User-space apps can access transport directly for performance.

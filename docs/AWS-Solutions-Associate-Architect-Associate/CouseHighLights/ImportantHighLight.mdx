@@ -9,35 +9,94 @@ import TOCInline from '@theme/TOCInline';
 import Tag from '@site/src/components/Tag';
 
 {/* <TOCInline toc={toc} minHeadingLevel={2} maxHeadingLevel={6} /> */}
-- When the new AMI is copied from Region A into Region B, it automatically creates a snapshot in Region B because AMIs are based on the underlying snapshots. 
-- By default, FIFO queues support up to 300 messages per second (300 send, receive, or delete operations per second).
-- **Amazon FSx for Lustre** makes it easy and cost-effective to launch and run the world’s most popular high-performance file system. It is used for workloads such as machine learning, high-performance computing (HPC), video processing, and financial modeling.
-- **Amazon RDS Custom** for Oracle as it allows you to access and customize your database server host and operating system, for example by applying special patches and changing the database software settings to support third-party applications that require privileged access.
-- **Georestriction**, also known as geo-blocking, to prevent users in specific geographic locations from accessing content that you're distributing through a Amazon CloudFront web distribution.
-- ![Pasted image 20250407231600.png](../../../static/assets/Pastedimage20250407231600.png)
-- **AWS Storage Gateway**
-	- **File Gateway** : offers SMB or NFS-based access to data in Amazon S3 with local caching.
-	- **Volume Gateway**: cloud-based iSCSI block storage volumes to your on-premises applications
-	- **Tape Gateway**: allows moving tape backups to the cloud.
-- **CloudFront**: Dynamic content, as determined at request time (cache-behavior configured to forward all headers), does not flow through regional edge caches, but goes directly to the origin.
-- **Amazon Aurora**, each Read Replica is associated with a priority tier (0-15). In the event of a failover, Amazon Aurora will promote the Read Replica that has the highest priority (the lowest numbered tier). If two or more Aurora Replicas share the same priority, then Amazon RDS promotes the replica that is largest in size.
-- AWS Lambda currently supports 1000 concurrent executions per AWS account per region. If your Amazon SNS message deliveries to AWS Lambda contribute to crossing these concurrency quotas
-- **AWS Global Accelerator**: provides static IP addresses that act as a fixed entry point to your application endpoints in a single or multiple AWS Regions, such as your Application Load Balancers, Network Load Balancers or Amazon EC2 instances. AWS Global Accelerator will not help in accelerating the file transfer speeds into S3 for the given use-case.
-- There are no **S3** data transfer charges when data is transferred in from the internet. Also with **S3TA**.
-- **Amazon GuardDuty** analyzes tens of billions of events across multiple AWS data sources, such as AWS CloudTrail events, Amazon VPC Flow Logs, and DNS logs.
-- As each **Snowball Edge Storage** Optimized device can handle 80 Terabytes of data.
-- **AWS Global Accelerator** provides static IP addresses that act as a fixed entry point to your application endpoints in a single or multiple AWS Regions, such as your Application Load Balancers, Network Load Balancers or Amazon EC2 instances. Amazon Global Accelerator is a good fit for non-HTTP use cases, such as gaming (UDP), IoT (MQTT), or Voice over IP, as well as for HTTP use cases that specifically require static IP addresses or deterministic, fast regional failover.
-- **Instance store** is ideal for the temporary storage of information that changes frequently such as buffers, caches, scratch data, and other temporary content, or for data that is replicated across a fleet of instances, such as a load-balanced pool of web servers.
-- A gateway endpoint is a gateway that you specify as a target for a route in your route table for traffic destined to a supported AWS service. The following AWS services are supported:
-	- Amazon S3
-	- DynamoDB
-- <Tag color="BLUE">Babelfish</Tag> allows Aurora PostgreSQL to understand T-SQL (Microsoft SQL Server's query language) and SQL Server wire protocol, enabling applications to communicate with Aurora using SQL Server-style queries with minimal code changes. This is ideal for minimizing application code refactoring.
-- ![Pasted image 20250409085310.png](../../../static/assets/Pasted%20image%2020250409085310.png)
-- In **CloudWatch**, there are certain metrics that **are not readily available** :
-	-  Memory utilization  
-	- Disk swap utilization  
-	- Disk space utilization  
-	- Page file utilization  
-	- Log collection
-- Amazon Kinesis Data Firehose is a fully managed service for delivering real-time streaming data to destinations such as Amazon Simple Storage Service (Amazon S3), Amazon Redshift, Amazon OpenSearch Service, Splunk, and any custom HTTP endpoint or HTTP endpoints owned by supported third-party service providers, including Datadog, Dynatrace, LogicMonitor, MongoDB, New Relic, and Sumo Logic.
-	<Tag color="BLUE">But Firehose cannot directly write into a DynamoDB table</Tag>.
+
+## AMI and Snapshot Behavior
+
+- When the new <Tag color="#87cefa">AMI</Tag> is copied from <Tag color="#f08080">Region A</Tag> into <Tag color="#f08080">Region B</Tag>, it automatically creates a <Tag color="#f08080">snapshot</Tag> in Region B because AMIs are based on the underlying snapshots. 
+
+---
+
+## Messaging & Streaming
+
+- By default, <Tag color="#ffb347">FIFO queues</Tag> support up to <Tag color="#f08080">300 messages/second</Tag> (send, receive, or delete ops).
+- <Tag color="#ffb347">Amazon Kinesis Data Firehose</Tag> is a fully managed service for real-time streaming delivery to:
+  - <Tag color="#87cefa">Amazon S3</Tag>, <Tag color="#87cefa">Redshift</Tag>, <Tag color="#87cefa">OpenSearch</Tag>, <Tag color="#87cefa">Splunk</Tag>, or custom endpoints.
+  - Supported providers: <Tag color="#f4a460">Datadog</Tag>, <Tag color="#f4a460">Dynatrace</Tag>, <Tag color="#f4a460">LogicMonitor</Tag>, <Tag color="#f4a460">MongoDB</Tag>, <Tag color="#f4a460">New Relic</Tag>, <Tag color="#f4a460">Sumo Logic</Tag>.
+  - <Tag color="BLUE">But Firehose cannot directly write into a DynamoDB table</Tag>.
+
+---
+
+## Storage Services
+
+- <Tag color="#ffb347">Amazon FSx for Lustre</Tag> is a high-performance file system used in:
+  - <Tag color="#90ee90">Machine learning</Tag>, <Tag color="#90ee90">HPC</Tag>, <Tag color="#90ee90">video processing</Tag>, <Tag color="#90ee90">financial modeling</Tag>.
+- <Tag color="#ffb347">AWS Storage Gateway</Tag> offers:
+  - <Tag color="#87cefa">File Gateway</Tag>: SMB/NFS access with caching.
+  - <Tag color="#87cefa">Volume Gateway</Tag>: iSCSI block storage for on-prem apps.
+  - <Tag color="#87cefa">Tape Gateway</Tag>: move tape backups to the cloud.
+- <Tag color="#ffb347">Instance store</Tag> is ideal for temporary storage (buffers, caches, scratch data).
+- <Tag color="#ffb347">S3</Tag>: No data transfer charges for internet uploads.
+
+---
+
+## Databases
+
+- <Tag color="#ffb347">Amazon RDS Custom</Tag> for Oracle:
+  - Enables custom patches, host-level config, and privileged access for third-party integrations.
+- <Tag color="#ffb347">Amazon Aurora</Tag> read replicas:
+  - Prioritized with tiers (0–15).
+  - During failover, lowest tier gets promoted; if tied, largest replica is promoted.
+- <Tag color="BLUE">Babelfish</Tag> allows <Tag color="#ffb347">Aurora PostgreSQL</Tag> to understand <Tag color="#f4a460">T-SQL</Tag> and <Tag color="#f4a460">SQL Server wire protocol</Tag> for easier migration.
+
+---
+
+## Networking & Acceleration
+
+- <Tag color="#ffb347">Georestriction</Tag> (geo-blocking): Prevent access by location in <Tag color="#87cefa">CloudFront</Tag>.
+- <Tag color="#ffb347">AWS Global Accelerator</Tag>:
+  - Provides static IPs for multi-region app entry points (ALB, NLB, EC2).
+  - Not effective for accelerating file uploads to S3.
+  - Ideal for non-HTTP use cases like:
+    - <Tag color="#f4a460">Gaming (UDP)</Tag>, <Tag color="#f4a460">IoT (MQTT)</Tag>, <Tag color="#f4a460">VoIP</Tag>, and HTTP use cases requiring <Tag color="#f08080">static IPs</Tag> or fast failover.
+- A <Tag color="#ffb347">gateway endpoint</Tag> is added to route tables for AWS services like:
+  - <Tag color="#87cefa">Amazon S3</Tag>
+  - <Tag color="#87cefa">DynamoDB</Tag>
+
+---
+
+## Monitoring & Metrics
+
+- In <Tag color="#ffb347">CloudWatch</Tag>, the following metrics <Tag color="#f08080">are not readily available</Tag>:
+  - Memory utilization  
+  - Disk swap  
+  - Disk space  
+  - Page file  
+  - Log collection
+
+---
+
+## Security & Data Movement
+
+- <Tag color="#ffb347">Amazon GuardDuty</Tag> analyzes billions of events across:
+  - <Tag color="#87cefa">CloudTrail</Tag>, <Tag color="#87cefa">VPC Flow Logs</Tag>, and <Tag color="#87cefa">DNS logs</Tag>.
+- Each <Tag color="#ffb347">Snowball Edge Storage Optimized</Tag> device handles up to <Tag color="#90ee90">80 TB</Tag> of data.
+
+---
+
+## Compute Limits
+
+- <Tag color="#ffb347">AWS Lambda</Tag> supports <Tag color="#f08080">1000 concurrent executions</Tag> per AWS account per region.
+  - Be aware of this if <Tag color="#87cefa">SNS</Tag> triggers lead to excessive Lambda usage.
+
+---
+
+## Content Behavior in CloudFront
+
+- <Tag color="#ffb347">CloudFront</Tag>:
+  - Dynamic content (when all headers forwarded) bypasses regional edge caches and goes directly to the <Tag color="#87cefa">origin</Tag>.
+
+---
+
+![Pasted image](../../../static/assets/Pastedimage20250407231600.png)
+
+![Pasted image](../../../static/assets/Pasted%20image%2020250409085310.png)
