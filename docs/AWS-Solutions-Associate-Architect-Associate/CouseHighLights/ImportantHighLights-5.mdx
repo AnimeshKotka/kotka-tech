@@ -71,3 +71,10 @@ import Tag from '@site/src/components/Tag';
 - <Tag color="#ff0000"><strong>CloudFront only supports ACM certificates</strong></Tag> from the `us-east-1` (N. Virginia) Region, even if your application is hosted elsewhere.
   - <Tag color="#ff0000"><strong>Custom domain HTTPS for CloudFront must use a certificate from this region</strong></Tag>
 
+## AWS Application Load Balancer (ALB)
+- The AWSEC2-PatchLoadBalancerInstance Systems Manager Automation document is specifically designed for patching EC2 instances that are part of a load balancer. It automatically removes the instance from the ALB target group, waits for in-flight requests to complete, applies patches, performs reboots if needed, and then safely re-registers the instance. This workflow prevents application downtime or request failures during patching and ensures compliance with security policies.
+- Systems Manager Maintenance Windows can be configured to run Automation documents or Lambda functions at precise times. You can schedule a task to remove instances from the load balancer using pre-defined documents (such as AWSEC2-PatchLoadBalancerInstance) and then re-register them once patching is complete. This offers fine-grained scheduling and orchestration for controlled patching without disrupting traffic.
+
+## EC2 Instance Types
+- <Tag color="#ff0000">Amazon EBS volumes</Tag> are particularly well-suited for use as the primary storage for file systems, databases, or for any applications that require fine granular updates and access to raw, unformatted, block-level storage.
+- For <Tag color="#ff0000">high I/O performance</Tag>, <Tag color="#00ff00">instance store volumes</Tag> are a better option.

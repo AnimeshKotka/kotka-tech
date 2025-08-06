@@ -59,6 +59,64 @@ import Tag from '@site/src/components/Tag';
 
 ---
 
+## 🧠 Amazon EBS Volume Types — Memorize Like a Pro
+
+### ✅ <Tag color="#1e90ff">Provisioned IOPS SSD (io1)</Tag> — **Best for High IOPS Needs**
+
+- **Backed by**: SSD (Solid-State Drives)
+- **Use Case**: <Tag color="#ffa500">Mission-critical, I/O-intensive workloads</Tag> (e.g., production-grade **databases**)
+- **IOPS Performance**:  
+  - **Up to 50 IOPS/GB**
+  - <Tag color="#ffa500">Max 64,000 IOPS per volume</Tag>
+- **Throughput**: Up to **1,000 MB/s** per volume
+- **Why Choose**: <Tag color="#32cd32"><strong>Meets use-case needing 25,000 IOPS</strong></Tag>
+
+---
+
+### ❌ Incorrect Choices (Not suitable for high IOPS needs)
+
+#### 🟡 <Tag color="#1e90ff">General Purpose SSD (gp2)</Tag> — **Balanced for General Use**
+
+- **Backed by**: SSD  
+- **Use Case**: Dev/Test, Boot volumes, Web servers  
+- **Max IOPS**: <Tag color="#ffa500">16,000 IOPS</Tag> (not sufficient for 25k+)
+- **Throughput**: Moderate  
+- 🧠 *Good all-rounder, but not built for intense workloads*
+
+---
+
+#### 🔵 <Tag color="#1e90ff">Cold HDD (sc1)</Tag> — **For Archival Storage**
+
+- **Backed by**: HDD (Hard Disk Drive)
+- **Use Case**: Infrequently accessed, cold datasets
+- **Max IOPS**: <Tag color="#ffa500">250 IOPS</Tag>
+- **Throughput**: Low  
+- 🧠 *Think: Cheap, cold storage for backups*
+
+---
+
+#### 🟣 <Tag color="#1e90ff">Throughput Optimized HDD (st1)</Tag> — **For Big, Streaming Data**
+
+- **Backed by**: HDD  
+- **Use Case**: <Tag color="#ffa500">Throughput-intensive workloads</Tag> (e.g., MapReduce, Kafka, ETL, log processing)
+- **Max IOPS**: <Tag color="#ffa500">500 IOPS</Tag>
+- **Throughput**: High  
+- 🧠 *Great for throughput, bad for high IOPS*
+
+---
+
+### 🔑 Summary Table
+
+| Volume Type | Backed By | Max IOPS | Best For |
+|-------------|------------|-----------|------------|
+| <strong>io1</strong> | SSD | <Tag color="#32cd32">64,000</Tag> | <Tag color="#ffa500">High IOPS DBs</Tag> |
+| gp2         | SSD | 16,000 | Dev/Test |
+| st1         | HDD | 500     | Big data streaming |
+| sc1         | HDD | 250     | Archival |
+
+---
+
+
 ## FSx for Lustre
 
 - Use <Tag color="#ffb347">FSx for Lustre</Tag> with <Tag color="#f08080">Scratch File System</Tag> for:
@@ -101,9 +159,16 @@ import Tag from '@site/src/components/Tag';
 - <Tag color="#ffb347">Amazon SQS</Tag> supports:
   - <Tag color="#87cefa">Short polling</Tag>: immediate response, may be empty.
   - <Tag color="#90ee90">Long polling</Tag>: waits for messages up to a timeout.
-- <br/><br/><Tag color="BLUE">Long polling makes it inexpensive</Tag> to retrieve messages, reducing cost and empty receives.
+<br/><br/><Tag color="BLUE">Long polling makes it inexpensive</Tag> to retrieve messages, reducing cost and empty receives.
 
 ---
+
+## Amazon SQS FIFO Throughput
+
+- By default, <Tag color="#ffb347">FIFO queues</Tag> support up to <Tag color="#90ee90">3,000 messages/sec</Tag> with batching.
+- Without batching: up to <Tag color="#f08080">300 messages/sec</Tag> (send, receive, or delete operations).
+- <Tag color="BLUE">Batching</Tag> enables meeting higher throughput requirements (up to 3,000 messages/sec).
+
 
 ## AWS CloudFormation StackSets
 
@@ -145,3 +210,8 @@ import Tag from '@site/src/components/Tag';
   - Enhances <Tag color="#90ee90">HPC</Tag> and <Tag color="#90ee90">ML</Tag> inter-instance communication.
   - Adds OS-bypass interface to ENA features.
   - User-space apps can access transport directly for performance.
+
+## Elastic Cache
+- <Tag color="#90ee90">Amazon ElastiCache</Tag> can be used to significantly improve latency and throughput for many read-heavy application workloads
+  (such as social networking, gaming, media sharing, leaderboard, and Q&A portals) or <Tag color="RED">compute-intensive workloads</Tag> (such as a recommendation engine) by allowing you to store the objects that are often read in the cache.
+
