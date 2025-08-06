@@ -14,6 +14,8 @@ import Tag from '@site/src/components/Tag';
 - When used with CloudFront, <Tag color="#1e90ff">WAF rules run at AWS Edge Locations globally</Tag>, protecting any HTTP web server including EC2 and on-premises servers.
 - <Tag color="#1e90ff">You can enforce HTTPS</Tag> between CloudFront and your server and between CloudFront and viewers.
 
+---
+
 ## Amazon S3 Storage Classes & Security
 
 - The <Tag color="#1e90ff">S3 Intelligent-Tiering</Tag> class optimizes storage costs by automatically transitioning objects between frequent and infrequent access tiers.
@@ -22,6 +24,8 @@ import Tag from '@site/src/components/Tag';
 - The <Tag color="#1e90ff">S3 Snapshot Recycle Bin</Tag> retains deleted EBS snapshots for a configurable period (e.g., 7 days) to allow recovery from accidental deletion.
 
 ![Different storage type S3 comparison](../../../static/assets/pt5-q51-i1.jpg)
+
+---
 
 ## Amazon Kinesis
 
@@ -33,21 +37,29 @@ import Tag from '@site/src/components/Tag';
   - <Tag color="#ffa500">Simply looping PutRecord API calls is not efficient.</Tag>
   - ![Kinesis Data Streams](../../../static/assets/kinesis_data_streame-23.png)
 
+---
+
 ## Amazon FSx vs EFS in Transfer Family
 
 - <Tag color="#ffa500">Amazon FSx for Lustre is not natively supported by AWS Transfer Family for SFTP</Tag>.
 - <Tag color="#1e90ff">Amazon EFS is supported</Tag> by Transfer Family and enables secure access, IAM-based policies, and POSIX permissions when deployed with Elastic IPs in a VPC.
+
+---
 
 ## High Availability and Failover
 
 - An <Tag color="#1e90ff">active-passive failover</Tag> configuration ensures standby resources are ready if primaries go down.
 - <Tag color="#ffa500">Amazon RDS Multi-AZ</Tag> handles failovers automatically by switching the DNS CNAME to the standby, promoting it as the new primary.
 
+---
+
 ## AWS Global Accelerator
 
 - <Tag color="#1e90ff">Lets you associate static anycast IPs</Tag> to AWS resources like ALBs, NLBs, EC2, and Elastic IPs.
 - Enables <Tag color="#1e90ff">seamless endpoint migration</Tag> across AZs or Regions without DNS changes.
 - Allows traffic control via <Tag color="#ffa500">traffic dials</Tag> and <Tag color="#ffa500">endpoint weights</Tag> for blue/green deployments or performance testing.
+
+---
 
 ## Amazon ElastiCache for Session Management
 
@@ -60,21 +72,49 @@ import Tag from '@site/src/components/Tag';
   - ML and streaming applications
   - Session stores
 
+---
+
 ## CloudFront CDN and S3
 
 - CloudFront <Tag color="#1e90ff">caches content at edge locations</Tag> after the initial request to Amazon S3.
 - This <Tag color="#ffa500">significantly improves performance</Tag> for repeated uploads/downloads like video files.
 - [Blog Reference](https://aws.amazon.com/blogs/aws/amazon-cloudfront-content-uploads-post-put-other-methods/)
 
+---
+
 ## 🔥 Super Important
 
 - <Tag color="#ff0000"><strong>CloudFront only supports ACM certificates</strong></Tag> from the `us-east-1` (N. Virginia) Region, even if your application is hosted elsewhere.
   - <Tag color="#ff0000"><strong>Custom domain HTTPS for CloudFront must use a certificate from this region</strong></Tag>
 
-## AWS Application Load Balancer (ALB)
-- The AWSEC2-PatchLoadBalancerInstance Systems Manager Automation document is specifically designed for patching EC2 instances that are part of a load balancer. It automatically removes the instance from the ALB target group, waits for in-flight requests to complete, applies patches, performs reboots if needed, and then safely re-registers the instance. This workflow prevents application downtime or request failures during patching and ensures compliance with security policies.
-- Systems Manager Maintenance Windows can be configured to run Automation documents or Lambda functions at precise times. You can schedule a task to remove instances from the load balancer using pre-defined documents (such as AWSEC2-PatchLoadBalancerInstance) and then re-register them once patching is complete. This offers fine-grained scheduling and orchestration for controlled patching without disrupting traffic.
+---
+## 💡 AWSEC2-PatchLoadBalancerInstance Automation Document
 
+The **`AWSEC2-PatchLoadBalancerInstance`** Systems Manager Automation document is used to **safely patch EC2 instances behind a load balancer**.  
+Here’s how it works:
+
+- **Automatically removes** the EC2 instance from the **ALB target group**  
+- **Waits for in-flight requests to complete** before taking any action  
+- **Applies patches** and performs **reboots if necessary**  
+- **Re-registers the instance** back to the load balancer **after patching**
+
+<Tag color="#d97706">This prevents application downtime or request failures during patching.</Tag>  
+It also ensures compliance with your security patching policies.
+
+---
+
+## 🕒 Maintenance Windows with Systems Manager
+
+**Systems Manager Maintenance Windows** help schedule **controlled and automated patching**.
+
+- You can run **Automation documents or Lambda functions** at **specific times**
+- Use it to **automatically remove instances from the load balancer**, run patching workflows like `AWSEC2-PatchLoadBalancerInstance`, and then **add them back safely**
+
+<Tag color="#2563eb">This gives you fine-grained control over patching, with zero disruption to traffic.</Tag>
+
+---
 ## EC2 Instance Types
 - <Tag color="#ff0000">Amazon EBS volumes</Tag> are particularly well-suited for use as the primary storage for file systems, databases, or for any applications that require fine granular updates and access to raw, unformatted, block-level storage.
 - For <Tag color="#ff0000">high I/O performance</Tag>, <Tag color="#00ff00">instance store volumes</Tag> are a better option.
+
+---
