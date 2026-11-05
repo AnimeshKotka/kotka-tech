@@ -1,34 +1,85 @@
-import React from 'react';
+import Link from '@docusaurus/Link';
 import Layout from '@theme/Layout';
-import Head from '@docusaurus/Head';
-// import GitHubIcon from '@mui/icons-material/GitHub';
-// import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import '../css/about.css';
-import { Profile } from '../components/about/Profile';
-import { Bio } from '../components/about/Bio';
-import { Skills } from '../components/about/Skills';
-import { GitProcess } from '../components/about/git-process';
-// import Main from '../components/Portfolio/Main/Main';
-// import Expertise from '../components/Portfolio/Expertices/Expertise';
+import Heading from '@theme/Heading';
+import styles from './about.module.css';
+
+const skills = [
+  'Node.js',
+  'TypeScript',
+  'React',
+  'Solidity',
+  'EVM',
+  'AWS',
+  'Python',
+  'LLMs',
+];
+
+const links = [
+  {label: 'GitHub', href: 'https://github.com/AnimeshKotka'},
+  {label: 'LinkedIn', href: 'https://linkedin.com/in/animesh-kotka'},
+  {label: 'X (Twitter)', href: 'https://x.com/animesh_kotka'},
+  {label: 'Portfolio', href: 'https://animeshkotka.github.io/Animesh-Kotka-Portfolio/'},
+];
 
 export default function About() {
   // need to copy from: https://github.com/yujisatojr/react-portfolio-template
   return (
-    <Layout>
-      <Head>
-        <title>About</title>
-        <meta name="description" content="This is the about page" />
-      </Head>
+    <Layout
+      title="About"
+      description="About Animesh Kotka — full stack and blockchain developer, and the author of Ctrl + Kotka.">
+      <main className={styles.page}>
+        <div className="container">
+          <div className={styles.profile}>
+            <img
+              src="https://avatars.githubusercontent.com/u/40909527"
+              alt="Animesh Kotka"
+              className={styles.avatar}
+              width={160}
+              height={160}
+            />
+            <div>
+              <span className={styles.eyebrow}>About me</span>
+              <Heading as="h1" className={styles.name}>
+                Hi, I'm Animesh Kotka
+              </Heading>
+              <p className={styles.lead}>
+                A full stack and blockchain developer who enjoys turning complex technology
+                into clear, practical notes. Ctrl + Kotka is where I document what I learn —
+                from AWS architecture to smart contracts to AI engineering.
+              </p>
+              <div className={styles.links}>
+                {links.map(({label, href}) => (
+                  <Link key={label} href={href} className="button button--outline button--primary">
+                    {label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
 
-    <div className="about-container">
-      <Profile/>
-      <Bio/>
-      <Skills/>
-      <GitProcess/>
-    </div>
-      {/* <Main/>
-      <Expertise/> */}
-      
+          <div className={styles.grid}>
+            <section className={styles.panel}>
+              <Heading as="h2">What I do</Heading>
+              <ul>
+                <li>Build backend services and web apps with Node.js and TypeScript.</li>
+                <li>Design and integrate EVM smart contracts and blockchain systems.</li>
+                <li>Architect cloud infrastructure on AWS.</li>
+                <li>Explore LLMs, agentic AI and MLOps.</li>
+              </ul>
+            </section>
+            <section className={styles.panel}>
+              <Heading as="h2">Tech I work with</Heading>
+              <div className={styles.skills}>
+                {skills.map((s) => (
+                  <span key={s} className={styles.skill}>
+                    {s}
+                  </span>
+                ))}
+              </div>
+            </section>
+          </div>
+        </div>
+      </main>
     </Layout>
   );
 }

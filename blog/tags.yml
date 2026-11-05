@@ -19,6 +19,16 @@ hola:
   description: Hola tag description
 
 github:
-  label: Github
+  label: GitHub
   permalink: /github
-  description: Github description
+  description: Posts about GitHub workflows and tooling
+
+ssh:
+  label: SSH
+  permalink: /ssh
+  description: Posts about SSH keys and configuration
+
+multiple accounts:
+  label: Multiple Accounts
+  permalink: /multiple-accounts
+  description: Managing more than one account on a single machine

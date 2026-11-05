@@ -3,6 +3,8 @@
   "position": 3,
   "link": {
     "type": "generated-index",
-    "description": "Blockchain Fundamentals"
+    "slug": "/category/blockchain",
+    "title": "Blockchain",
+    "description": "Blockchain fundamentals: hashing, consensus, and how distributed ledgers work."
   }
 }
