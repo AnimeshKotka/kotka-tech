@@ -1,0 +1,10 @@
+{
+  "label": "AI Engineering",
+  "position": 2,
+  "link": {
+    "type": "generated-index",
+    "slug": "/category/ai-engineering",
+    "title": "AI Engineering",
+    "description": "AI/ML fundamentals, Python for AI, and a roadmap to becoming an AI engineer."
+  }
+}

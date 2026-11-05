@@ -17,3 +17,18 @@ hola:
   label: Hola
   permalink: /hola
   description: Hola tag description
+
+github:
+  label: GitHub
+  permalink: /github
+  description: Posts about GitHub workflows and tooling
+
+ssh:
+  label: SSH
+  permalink: /ssh
+  description: Posts about SSH keys and configuration
+
+multiple accounts:
+  label: Multiple Accounts
+  permalink: /multiple-accounts
+  description: Managing more than one account on a single machine
